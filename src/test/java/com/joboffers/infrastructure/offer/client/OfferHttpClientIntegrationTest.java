@@ -4,7 +4,7 @@ import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.joboffers.config.OfferHttpClientTestConfig;
 import com.joboffers.infrastructure.RemoteOfferClient;
-import com.joboffers.infrastructure.offer.dto.OfferDto;
+import com.joboffers.model.OfferDto;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

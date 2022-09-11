@@ -1,6 +1,6 @@
 package com.joboffers.infrastructure.offer.client;
 
-import com.joboffers.infrastructure.offer.dto.OfferDto;
+import com.joboffers.model.OfferDto;
 import org.mockito.ArgumentMatchers;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
