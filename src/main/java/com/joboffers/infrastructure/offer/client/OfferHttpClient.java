@@ -1,7 +1,7 @@
-package com.joboffers.joboffers.infrastructure.offer.client;
+package com.joboffers.infrastructure.offer.client;
 
-import com.joboffers.joboffers.infrastructure.RemoteOfferClient;
-import com.joboffers.joboffers.infrastructure.offer.dto.OfferDto;
+import com.joboffers.infrastructure.RemoteOfferClient;
+import com.joboffers.infrastructure.offer.dto.OfferDto;
 import lombok.AllArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
