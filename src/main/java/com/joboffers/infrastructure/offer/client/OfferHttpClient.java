@@ -15,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
 import java.util.List;
+
 @Slf4j
 @AllArgsConstructor
 public class OfferHttpClient implements RemoteOfferClient {
