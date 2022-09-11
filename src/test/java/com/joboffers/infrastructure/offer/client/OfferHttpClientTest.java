@@ -11,10 +11,10 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-class RestTemplateExchangeHttpClientTest implements SampleRestTemplateExchangeResponse, SampleOfferResponse, SampleOfferDto {
+class OfferHttpClientTest implements SampleRestTemplateExchangeResponse, SampleOfferResponse, SampleOfferDto {
 
     RestTemplate restTemplate = Mockito.mock(RestTemplate.class);
-    RemoteOfferClient offerHttpClient = new OfferHttpClient(restTemplate, "url");
+    RemoteOfferClient offerHttpClient = new OfferHttpClient(restTemplate, "url", 5057);
 
     @Test
     void should_return_one_element_list_of_offers() {

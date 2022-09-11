@@ -20,15 +20,17 @@ public class OfferHttpClient implements RemoteOfferClient {
 
     private final RestTemplate restTemplate;
     private final String uri;
+    private final int port;
 
     @Override
     public List<OfferDto> getOffers() {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         final HttpEntity<HttpHeaders> requestEntity = new HttpEntity<>(httpHeaders);
+        String url = uri + ":" + port + "/offers";
 
         try {
-            ResponseEntity<List<OfferDto>> response = restTemplate.exchange(uri, HttpMethod.GET, requestEntity,
+            ResponseEntity<List<OfferDto>> response = restTemplate.exchange(url, HttpMethod.GET, requestEntity,
                     new ParameterizedTypeReference<List<OfferDto>>() {
                     });
             final List<OfferDto> body = response.getBody();
