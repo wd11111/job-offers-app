@@ -2,15 +2,11 @@ package com.joboffers.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
+@Data
 @Builder
-@EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
 public class OfferDto {
@@ -18,5 +14,5 @@ public class OfferDto {
     String title;
     String company;
     String salary;
-    String offerUrl;
+    String url;
 }

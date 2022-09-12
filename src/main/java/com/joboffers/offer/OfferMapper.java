@@ -1,16 +1,16 @@
 package com.joboffers.offer;
 
 import com.joboffers.model.OfferDto;
-import com.joboffers.model.OfferResponse;
+import com.joboffers.model.Offer;
 
 public class OfferMapper {
 
-    public static OfferDto mapToOfferDto(OfferResponse offerResponse) {
+    public static OfferDto mapToOfferDto(Offer offer) {
         return OfferDto.builder()
-                .title(offerResponse.getTitle())
-                .offerUrl(offerResponse.getOfferUrl())
-                .salary(offerResponse.getSalary())
-                .company(offerResponse.getCompany())
+                .title(offer.getTitle())
+                .url(offer.getUrl())
+                .salary(offer.getSalary())
+                .company(offer.getCompany())
                 .build();
     }
 

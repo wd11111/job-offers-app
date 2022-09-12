@@ -52,13 +52,13 @@ class OfferHttpClientIntegrationTest implements SampleOfferDto {
                 "    \"title\": \"Software Engineer - Mobile (m/f/d)\",\n" +
                 "    \"company\": \"Cybersource\",\n" +
                 "    \"salary\": \"4k - 8k PLN\",\n" +
-                "    \"offerUrl\": \"https://nofluffjobs.com/pl/job/software-engineer-mobile-m-f-d-cybersource-poznan-entavdpn\"\n" +
+                "    \"url\": \"https://nofluffjobs.com/pl/job/software-engineer-mobile-m-f-d-cybersource-poznan-entavdpn\"\n" +
                 "  },\n" +
                 "  {\n" +
                 "    \"title\": \"Junior DevOps Engineer\",\n" +
                 "    \"company\": \"CDQ Poland\",\n" +
                 "    \"salary\": \"8k - 14k PLN\",\n" +
-                "    \"offerUrl\": \"https://nofluffjobs.com/pl/job/junior-devops-engineer-cdq-poland-wroclaw-gnymtxqd\"\n" +
+                "    \"url\": \"https://nofluffjobs.com/pl/job/junior-devops-engineer-cdq-poland-wroclaw-gnymtxqd\"\n" +
                 "  }]";
     }
 
@@ -67,7 +67,7 @@ class OfferHttpClientIntegrationTest implements SampleOfferDto {
                 "    \"title\": \"Software Engineer - Mobile (m/f/d)\",\n" +
                 "    \"company\": \"Cybersource\",\n" +
                 "    \"salary\": \"4k - 8k PLN\",\n" +
-                "    \"offerUrl\": \"https://nofluffjobs.com/pl/job/software-engineer-mobile-m-f-d-cybersource-poznan-entavdpn\"\n" +
+                "    \"url\": \"https://nofluffjobs.com/pl/job/software-engineer-mobile-m-f-d-cybersource-poznan-entavdpn\"\n" +
                 "  }]";
     }
 
