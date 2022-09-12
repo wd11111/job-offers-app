@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Document
+@Document("offers")
 public class Offer {
 
     @Id
@@ -17,6 +17,6 @@ public class Offer {
     private String title;
     private String company;
     private String salary;
-    private String offerUrl;
+    private String url;
 }
 

@@ -8,7 +8,7 @@ public class OfferMapper {
     public static OfferDto mapToOfferDto(Offer offer) {
         return OfferDto.builder()
                 .title(offer.getTitle())
-                .offerUrl(offer.getOfferUrl())
+                .url(offer.getUrl())
                 .salary(offer.getSalary())
                 .company(offer.getCompany())
                 .build();
