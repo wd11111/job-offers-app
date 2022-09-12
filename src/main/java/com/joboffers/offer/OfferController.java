@@ -26,5 +26,7 @@ public class OfferController {
     ResponseEntity<OfferDto> getOfferByID(@PathVariable String id) {
         return ResponseEntity.ok(offerService.getOfferById(id));
     }
+
+
 }
 
