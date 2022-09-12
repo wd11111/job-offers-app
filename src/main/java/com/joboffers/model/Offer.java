@@ -18,5 +18,12 @@ public class Offer {
     private String company;
     private String salary;
     private String url;
+
+    public Offer(String title, String company, String salary, String url) {
+        this.title = title;
+        this.company = company;
+        this.salary = salary;
+        this.url = url;
+    }
 }
 

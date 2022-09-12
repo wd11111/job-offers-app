@@ -12,11 +12,11 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.web.context.WebApplicationContext;
 
 import static com.joboffers.offer.ResponseBodyAssert.then;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @WebMvcTest(OfferController.class)
 class OfferControllerTest implements SamplesForOfferController {
-
     @MockBean
     private OfferService offerService;
 
