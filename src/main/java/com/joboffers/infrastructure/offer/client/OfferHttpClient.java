@@ -1,8 +1,9 @@
 package com.joboffers.infrastructure.offer.client;
 
 import com.joboffers.infrastructure.RemoteOfferClient;
-import com.joboffers.infrastructure.offer.dto.OfferDto;
+import com.joboffers.model.OfferDto;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -15,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Collections;
 import java.util.List;
 
+@Slf4j
 @AllArgsConstructor
 public class OfferHttpClient implements RemoteOfferClient {
 
@@ -36,6 +38,7 @@ public class OfferHttpClient implements RemoteOfferClient {
             final List<OfferDto> body = response.getBody();
             return (body != null) ? body : Collections.emptyList();
         } catch (ResourceAccessException e) {
+            log.error(e.getMessage());
             return Collections.emptyList();
         }
     }

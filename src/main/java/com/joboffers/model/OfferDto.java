@@ -1,4 +1,4 @@
-package com.joboffers.infrastructure.offer.dto;
+package com.joboffers.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,6 +1,6 @@
 package com.joboffers.infrastructure;
 
-import com.joboffers.infrastructure.offer.dto.OfferDto;
+import com.joboffers.model.OfferDto;
 
 import java.util.List;
 

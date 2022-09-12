@@ -1,7 +1,7 @@
 package com.joboffers.infrastructure.offer.client;
 
 import com.joboffers.infrastructure.RemoteOfferClient;
-import com.joboffers.infrastructure.offer.dto.OfferDto;
+import com.joboffers.model.OfferDto;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.web.client.RestTemplate;
