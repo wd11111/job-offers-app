@@ -1,10 +1,19 @@
 package com.joboffers.offer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.cloudyrock.mongock.driver.mongodb.springdata.v3.decorator.impl.MongockTemplate;
+import com.mongodb.ConnectionString;
+import com.mongodb.MongoClientSettings;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -12,10 +21,10 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.web.context.WebApplicationContext;
 
 import static com.joboffers.offer.ResponseBodyAssert.then;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @WebMvcTest(OfferController.class)
+@TestPropertySource(properties = "mongock.enabled=false")
 class OfferControllerTest implements SamplesForOfferController {
     @MockBean
     private OfferService offerService;
@@ -53,3 +62,4 @@ class OfferControllerTest implements SamplesForOfferController {
         then(mvcResult).hasTheSameBodyAs(expectedResponseBody);
     }
 }
+
