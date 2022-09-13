@@ -11,25 +11,25 @@ import java.util.List;
 public class DatabaseChangeLog {
     @ChangeSet(order = "001", id = "seedDatabase", author = "wd")
     public void seedDatabase(OfferRepository offerRepository) {
-        offerRepository.insert(List.of(cyberSource(), cdqPoland()));
+        offerRepository.insert(List.of(sampleDtoOffer1(), sampleDtoOffer2()));
     }
 
-    private Offer cyberSource() {
-        final Offer cybersource = new Offer();
-        cybersource.setUrl("https://nofluffjobs.com/pl/job/software-engineer-mobile-m-f-d-cybersource-poznan-entavdpn");
-        cybersource.setTitle("Software Engineer - Mobile (m/f/d)");
-        cybersource.setSalary("4k - 8k PLN");
-        cybersource.setCompany("Cybersource");
-        return cybersource;
+    private Offer sampleDtoOffer1() {
+        final Offer sampleDtoOffer1 = new Offer();
+        sampleDtoOffer1.setUrl("https://nofluffjobs.com/pl/job/software-engineer-mobile-m-f-d-cybersource-poznan-entavdpn");
+        sampleDtoOffer1.setTitle("Software Engineer - Mobile (m/f/d)");
+        sampleDtoOffer1.setSalary("4k - 8k PLN");
+        sampleDtoOffer1.setCompany("Cybersource");
+        return sampleDtoOffer1;
     }
 
-    private Offer cdqPoland() {
-        final Offer cdqSource = new Offer();
-        cdqSource.setUrl("https://nofluffjobs.com/pl/job/junior-devops-engineer-cdq-poland-wroclaw-gnymtxqd");
-        cdqSource.setTitle("Junior DevOps Engineer");
-        cdqSource.setSalary("8k - 14k PLN");
-        cdqSource.setCompany("CDQ Poland");
-        return cdqSource;
+    private Offer sampleDtoOffer2() {
+        final Offer sampleDtoOffer2 = new Offer();
+        sampleDtoOffer2.setUrl("https://nofluffjobs.com/pl/job/junior-devops-engineer-cdq-poland-wroclaw-gnymtxqd");
+        sampleDtoOffer2.setTitle("Junior DevOps Engineer");
+        sampleDtoOffer2.setSalary("8k - 14k PLN");
+        sampleDtoOffer2.setCompany("CDQ Poland");
+        return sampleDtoOffer2;
     }
 
 }
