@@ -29,16 +29,8 @@ public class OfferService {
                 .orElseThrow(() -> new OfferNotFoundException(id));
     }
 
-    private static List<Offer> imitationOfDb() {
-        return Arrays.asList(
-                offerResponseSample(),
-                offerResponseSample(),
-                offerResponseSample(),
-                offerResponseSample());
+    public void add() {
+       offerRepository.insert(new Offer("1", "xd", "xd", "xd", "xd"));
     }
 
-    private static Offer offerResponseSample() {
-        return new Offer("1", "Junior DevOps Engineer", "8k - 14k PLN", "8k - 14k PLN",
-                "https://nofluffjobs.com/pl/job/software-engineer-mobile-m-f-d-cybersource-poznan-entavdpn");
-    }
 }

@@ -21,8 +21,8 @@ public class Config {
 
     @Bean
     RestTemplate restTemplate(@Value("${offer.http.client.config.connectionTimeout}") long connectionTimeout,
-                              @Value("${offer.http.client.config.readTimeout}") long readTimeout,
-                              RestTemplateResponseErrorHandler errorHandler) {
+                                        @Value("${offer.http.client.config.readTimeout}") long readTimeout,
+                                        RestTemplateResponseErrorHandler errorHandler) {
         return new RestTemplateBuilder()
                 .errorHandler(errorHandler)
                 .setConnectTimeout(Duration.ofMillis(connectionTimeout))
@@ -32,8 +32,8 @@ public class Config {
 
     @Bean
     RemoteOfferClient offerClient(RestTemplate restTemplate,
-                                  @Value("${offer.http.client.config.uri}") String uri,
-                                  @Value("${offer.http.client.config.port}") int port) {
+                                            @Value("${offer.http.client.config.uri}") String uri,
+                                            @Value("${offer.http.client.config.port}") int port) {
         return new OfferHttpClient(restTemplate, uri, port);
     }
 }

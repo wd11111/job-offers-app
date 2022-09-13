@@ -4,7 +4,6 @@ import com.joboffers.infrastructure.RemoteOfferClient;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
-@Configuration
 public class OfferHttpClientTestConfig extends Config {
 
     public RemoteOfferClient remoteOfferTestClient(String uri, int port, int connectionTimeout, int readTimeout) {
