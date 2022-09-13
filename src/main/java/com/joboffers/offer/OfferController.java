@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 public class OfferController {
 
     OfferService offerService;
-    RemoteOfferClient offerHttpClient;
 
     @GetMapping
     ResponseEntity<List<OfferDto>> getOfferList() {
@@ -30,12 +29,6 @@ public class OfferController {
     @GetMapping("/{id}")
     ResponseEntity<OfferDto> getOfferByID(@PathVariable String id) {
         return ResponseEntity.ok(offerService.getOfferById(id));
-    }
-
-    @GetMapping("/add/dodaj")
-    ResponseEntity<List<Offer>> add() {
-        List<Offer> offers = offerHttpClient.getOffers().stream().map(OfferMapper::mapToOffer).collect(Collectors.toList());
-        return ResponseEntity.ok(offerService.saveAll(offers));
     }
 }
 

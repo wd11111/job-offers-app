@@ -31,6 +31,9 @@ public class OfferServiceContainerTests implements SampleOffers {
     @Autowired
     OfferService offerService;
 
+    @Autowired
+    OfferRepository offerRepository;
+
     @Test
     void should_return_all_offers() {
         List<OfferDto> expectedOffers = List.of(sampleDtoOffer1(), sampleDtoOffer2());
@@ -44,9 +47,10 @@ public class OfferServiceContainerTests implements SampleOffers {
     @Test
     void should_return_one_offer_by_id() {
         OfferDto expectedOffer = sampleDtoOffer1();
-        String offerId = "6320318d98c0ea5fb2d07acd";
+        String offerId = "6320845a3e46f97b29276f97";
 
         OfferDto offerFromDb = offerService.getOfferById(offerId);
+
 
         assertThat(expectedOffer).isEqualTo(offerFromDb);
     }

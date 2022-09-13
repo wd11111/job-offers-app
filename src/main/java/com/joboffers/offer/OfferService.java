@@ -30,13 +30,18 @@ public class OfferService {
     }
 
     public List<Offer> saveAll(List<Offer> offers) {
+        return offerRepository.saveAll(offers);
+    }
+
+    public List<Offer> saveAllAfterFiltered(List<OfferDto> offers) {
         return offerRepository.saveAll(filterOffersBeforeSave(offers));
     }
 
-    private List<Offer> filterOffersBeforeSave(List<Offer> offers) {
+    private List<Offer> filterOffersBeforeSave(List<OfferDto> offers) {
         return offers.stream()
                 .filter(offer -> !Strings.isNullOrEmpty(offer.getOfferUrl()))
                 .filter(offer -> !offerRepository.existsByOfferUrl(offer.getOfferUrl()))
+                .map(OfferMapper::mapToOffer)
                 .collect(Collectors.toList());
     }
  }
