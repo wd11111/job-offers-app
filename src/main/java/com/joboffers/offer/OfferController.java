@@ -26,11 +26,5 @@ public class OfferController {
     ResponseEntity<OfferDto> getOfferByID(@PathVariable String id) {
         return ResponseEntity.ok(offerService.getOfferById(id));
     }
-
-    @GetMapping("/add/dodaj")
-    ResponseEntity<Void> getOfferByIDa() {
-        offerService.add();
-        return ResponseEntity.ok().build();
-    }
 }
 
