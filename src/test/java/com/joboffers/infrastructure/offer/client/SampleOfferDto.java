@@ -13,7 +13,7 @@ public interface SampleOfferDto {
                 .title(title)
                 .company(company)
                 .salary(salary)
-                .url(offerUrl)
+                .offerUrl(offerUrl)
                 .build();
     }
 }

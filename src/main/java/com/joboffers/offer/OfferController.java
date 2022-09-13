@@ -1,5 +1,8 @@
 package com.joboffers.offer;
 
+import com.joboffers.infrastructure.RemoteOfferClient;
+import com.joboffers.infrastructure.offer.client.OfferHttpClient;
+import com.joboffers.model.Offer;
 import com.joboffers.model.OfferDto;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @AllArgsConstructor
@@ -16,6 +20,7 @@ import java.util.List;
 public class OfferController {
 
     OfferService offerService;
+    RemoteOfferClient offerHttpClient;
 
     @GetMapping
     ResponseEntity<List<OfferDto>> getOfferList() {
@@ -25,6 +30,12 @@ public class OfferController {
     @GetMapping("/{id}")
     ResponseEntity<OfferDto> getOfferByID(@PathVariable String id) {
         return ResponseEntity.ok(offerService.getOfferById(id));
+    }
+
+    @GetMapping("/add/dodaj")
+    ResponseEntity<List<Offer>> add() {
+        List<Offer> offers = offerHttpClient.getOffers().stream().map(OfferMapper::mapToOffer).collect(Collectors.toList());
+        return ResponseEntity.ok(offerService.saveAll(offers));
     }
 }
 

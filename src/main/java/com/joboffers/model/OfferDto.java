@@ -14,5 +14,5 @@ public class OfferDto {
     String title;
     String company;
     String salary;
-    String url;
+    String offerUrl;
 }
