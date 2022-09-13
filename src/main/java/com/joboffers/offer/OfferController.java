@@ -1,5 +1,8 @@
 package com.joboffers.offer;
 
+import com.joboffers.infrastructure.RemoteOfferClient;
+import com.joboffers.infrastructure.offer.client.OfferHttpClient;
+import com.joboffers.model.Offer;
 import com.joboffers.model.OfferDto;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @AllArgsConstructor

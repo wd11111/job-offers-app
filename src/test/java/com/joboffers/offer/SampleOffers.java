@@ -32,8 +32,8 @@ interface SampleOffers {
         return Offer.builder()
                 .title("Junior DevOps Engineer")
                 .company("CDQ Poland")
-                .salary("8k - 14k PLN")
-                .url("https://nofluffjobs.com/pl/job/junior-devops-engineer-cdq-poland-wroclaw-gnymtxqd")
+                .salary("8k - 15k PLN")
+                .offerUrl("https://nofluffjobs.com/pl/job/junior-devops-engineer-cdq-poland-poznannn-gnymtxqd")
                 .build();
     }
 
@@ -41,8 +41,8 @@ interface SampleOffers {
         return Offer.builder()
                 .title("Software Engineer - Mobile (m/f/d)")
                 .company("Cybersource")
-                .salary("4k - 8k PLN")
-                .url("https://nofluffjobs.com/pl/job/software-engineer-mobile-m-f-d-cybersource-poznan-entavdpn")
+                .salary("4k - 9k PLN")
+                .offerUrl("https://nofluffjobs.com/pl/job/software-engineer-mobile-m-f-d-cybersource-warszawawa-entavdpn")
                 .build();
     }
 }

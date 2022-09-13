@@ -19,7 +19,7 @@ public class Offer {
     private String title;
     private String company;
     private String salary;
-    private String url;
+    private String offerUrl;
 
 }
 

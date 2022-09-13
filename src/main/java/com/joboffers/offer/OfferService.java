@@ -1,12 +1,12 @@
 package com.joboffers.offer;
 
-import com.joboffers.model.OfferDto;
+import com.google.common.base.Strings;
 import com.joboffers.model.Offer;
+import com.joboffers.model.OfferDto;
 import com.joboffers.offer.exceptions.OfferNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,4 +33,15 @@ public class OfferService {
         return offerRepository.saveAll(offers);
     }
 
-}
+    public List<Offer> saveAllAfterFiltered(List<OfferDto> offers) {
+        return offerRepository.saveAll(filterOffersBeforeSave(offers));
+    }
+
+    private List<Offer> filterOffersBeforeSave(List<OfferDto> offers) {
+        return offers.stream()
+                .filter(offer -> !Strings.isNullOrEmpty(offer.getOfferUrl()))
+                .filter(offer -> !offerRepository.existsByOfferUrl(offer.getOfferUrl()))
+                .map(OfferMapper::mapToOffer)
+                .collect(Collectors.toList());
+    }
+ }

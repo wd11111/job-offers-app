@@ -1,7 +1,6 @@
 package com.joboffers.config;
 
 import com.joboffers.infrastructure.RemoteOfferClient;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
 public class OfferHttpClientTestConfig extends Config {
