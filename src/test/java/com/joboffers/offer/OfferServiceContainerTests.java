@@ -1,15 +1,12 @@
 package com.joboffers.offer;
 
 import com.joboffers.JobOffersApplication;
-import com.joboffers.config.Config;
+import com.joboffers.model.Offer;
 import com.joboffers.model.OfferDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.Scope;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
 import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -17,6 +14,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 
 @Testcontainers
 @SpringBootTest(classes = JobOffersApplication.class)
@@ -52,6 +50,17 @@ public class OfferServiceContainerTests implements SampleOffers {
         OfferDto offerFromDb = offerService.getOfferById(offerId);
 
         assertThat(expectedOffer).isEqualTo(offerFromDb);
+    }
+
+    @Test
+    void should_save_list_of_two_offers_properly_in_database() {
+        List<Offer> offersToSave = List.of(sampleOffer1(), sampleOffer2());
+        int collectionSizeBeforeSave = offerService.getOfferList().size();
+
+        List<Offer> savedOffers = offerService.saveAll(offersToSave);
+        int collectionSizeAfterSave = offerService.getOfferList().size();
+
+        assertThat(collectionSizeBeforeSave).isLessThan(collectionSizeAfterSave);
     }
 
 

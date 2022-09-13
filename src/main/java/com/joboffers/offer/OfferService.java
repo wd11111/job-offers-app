@@ -29,8 +29,8 @@ public class OfferService {
                 .orElseThrow(() -> new OfferNotFoundException(id));
     }
 
-    public void add() {
-       offerRepository.insert(new Offer("1", "xd", "xd", "xd", "xd"));
+    public List<Offer> saveAll(List<Offer> offers) {
+        return offerRepository.saveAll(offers);
     }
 
 }
