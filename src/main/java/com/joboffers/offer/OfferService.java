@@ -3,10 +3,13 @@ package com.joboffers.offer;
 import com.google.common.base.Strings;
 import com.joboffers.model.Offer;
 import com.joboffers.model.OfferDto;
+import com.joboffers.offer.exceptions.OfferDuplicateException;
 import com.joboffers.offer.exceptions.OfferNotFoundException;
+import com.mongodb.MongoException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import java.nio.MappedByteBuffer;
@@ -41,9 +44,14 @@ public class OfferService {
         return offerRepository.saveAll(filterOffersBeforeSave(offers));
     }
 
-    public Offer addOffer(OfferDto offerDto) {
+    public OfferDto addOffer(OfferDto offerDto) {
         Offer offerToInsert = OfferMapper.mapToOffer(offerDto);
-        return offerRepository.insert(offerToInsert);
+        try {
+            offerRepository.save(offerToInsert);
+            return offerDto;
+        }catch (DuplicateKeyException e) {
+            throw new OfferDuplicateException();
+        }
     }
 
     private List<Offer> filterOffersBeforeSave(List<OfferDto> offers) {

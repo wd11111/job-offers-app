@@ -1,6 +1,7 @@
 package com.joboffers.offer.exceptions;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.http.ResponseEntity;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -12,10 +13,10 @@ class OfferControllerExceptionHandlerTest implements SampleControllerExceptionRe
     void should_return_correct_response_when_offer_not_found() {
         //given
         OfferNotFoundException offerNotFoundException = sampleOfferNotFoundException();
-        OfferErrorResponse expectedOfferErrorResponse = sampleOfferNotFoundExceptionResponse();
+        ResponseEntity expectedOfferErrorResponse = sampleOfferNotFoundExceptionResponse();
 
         // when
-        OfferErrorResponse offerErrorResponse = offerControllerExceptionHandler.handleOfferNotFoundException(offerNotFoundException);
+        ResponseEntity offerErrorResponse = offerControllerExceptionHandler.handleOfferNotFoundException(offerNotFoundException);
 
         // then
         assertThat(offerErrorResponse).isEqualTo(expectedOfferErrorResponse);

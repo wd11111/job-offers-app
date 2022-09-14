@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -32,7 +33,7 @@ public class OfferController {
     }
 
     @PostMapping("/add")
-    ResponseEntity<Offer> addOffer(@RequestBody OfferDto offerDto) {
+    ResponseEntity<OfferDto> addOffer(@RequestBody @Valid OfferDto offerDto) {
         return new ResponseEntity<>(offerService.addOffer(offerDto), HttpStatus.CREATED);
     }
 
