@@ -48,7 +48,7 @@ public class OfferServiceContainerTests implements SampleOffers {
     @Test
     void should_return_one_offer_by_id() {
         OfferDto expectedOffer = sampleDtoOffer1();
-        String offerId = "6320845a3e46f97b29276f97";
+        String offerId = "6321d387c9db7f57affe5049";
 
         OfferDto offerFromDb = offerService.getOfferById(offerId);
 

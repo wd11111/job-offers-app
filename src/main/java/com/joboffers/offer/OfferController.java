@@ -14,18 +14,18 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/offers")
+@RequestMapping("/api")
 public class OfferController {
 
     OfferService offerService;
 
-    @GetMapping
+    @GetMapping("/offers")
     ResponseEntity<List<OfferDto>> getOfferList() {
         return ResponseEntity.ok(offerService.getOfferList());
     }
 
 
-    @GetMapping("/{id}")
+    @GetMapping("/offers/{id}")
     ResponseEntity<OfferDto> getOfferByID(@PathVariable String id) {
         return ResponseEntity.ok(offerService.getOfferById(id));
     }
