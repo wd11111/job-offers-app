@@ -2,7 +2,7 @@ package com.joboffers.infrastructure.offer.client;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
-import com.joboffers.config.OfferHttpClientTestConfig;
+import com.joboffers.config.OfferHttpClientTestOfferClientConfig;
 import com.joboffers.infrastructure.RemoteOfferClient;
 import com.joboffers.model.OfferDto;
 import org.junit.jupiter.api.AfterEach;
@@ -21,7 +21,7 @@ class OfferHttpClientIntegrationTest implements SampleOfferDto {
     int port = SocketUtils.findAvailableTcpPort();
     WireMockServer wireMockServer;
 
-    RemoteOfferClient remoteOfferClient = new OfferHttpClientTestConfig().remoteOfferTestClient("http://localhost", port, 1000, 1000);
+    RemoteOfferClient remoteOfferClient = new OfferHttpClientTestOfferClientConfig().remoteOfferTestClient("http://localhost", port, 1000, 1000);
 
     @BeforeEach
     void setup() {
