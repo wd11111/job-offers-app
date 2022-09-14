@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.nio.MappedByteBuffer;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,6 +39,11 @@ public class OfferService {
 
     public List<Offer> saveAllAfterFiltered(List<OfferDto> offers) {
         return offerRepository.saveAll(filterOffersBeforeSave(offers));
+    }
+
+    public Offer addOffer(OfferDto offerDto) {
+        Offer offerToInsert = OfferMapper.mapToOffer(offerDto);
+        return offerRepository.insert(offerToInsert);
     }
 
     private List<Offer> filterOffersBeforeSave(List<OfferDto> offers) {
