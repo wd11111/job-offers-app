@@ -17,6 +17,7 @@ import java.time.Duration;
 @Configuration
 @EnableMongock
 @EnableCaching
+@EnableSwagger2
 public class Config {
 
     @Bean
