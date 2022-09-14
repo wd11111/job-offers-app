@@ -6,7 +6,9 @@ import com.joboffers.model.OfferDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -14,9 +16,11 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 
 @Testcontainers
 @SpringBootTest(classes = JobOffersApplication.class)
+@TestPropertySource(properties = "spring.cache.type=none")
 @ActiveProfiles("container")
 public class OfferServiceContainerTests implements SampleOffers {
 
@@ -30,9 +34,6 @@ public class OfferServiceContainerTests implements SampleOffers {
 
     @Autowired
     OfferService offerService;
-
-    @Autowired
-    OfferRepository offerRepository;
 
     @Test
     void should_return_all_offers() {

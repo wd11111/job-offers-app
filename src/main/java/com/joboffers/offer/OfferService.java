@@ -5,6 +5,8 @@ import com.joboffers.model.Offer;
 import com.joboffers.model.OfferDto;
 import com.joboffers.offer.exceptions.OfferNotFoundException;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +18,7 @@ public class OfferService {
 
     OfferRepository offerRepository;
 
+    @Cacheable(value = "offers")
     public List<OfferDto> getOfferList() {
         List<OfferDto> offerDtoList = offerRepository.findAll().stream()
                 .map(OfferMapper::mapToOfferDto)
