@@ -25,6 +25,7 @@ public class DatabaseChangeLog {
 
     private Offer sampleDtoOffer2() {
         final Offer sampleDtoOffer2 = new Offer();
+        sampleDtoOffer2.setId("6321d387c9db7f57affe5049");
         sampleDtoOffer2.setOfferUrl("https://nofluffjobs.com/pl/job/junior-devops-engineer-cdq-poland-wroclaw-gnymtxqd");
         sampleDtoOffer2.setTitle("Junior DevOps Engineer");
         sampleDtoOffer2.setSalary("8k - 14k PLN");
