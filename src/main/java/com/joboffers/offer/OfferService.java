@@ -5,14 +5,12 @@ import com.joboffers.model.Offer;
 import com.joboffers.model.OfferDto;
 import com.joboffers.offer.exceptions.OfferDuplicateException;
 import com.joboffers.offer.exceptions.OfferNotFoundException;
-import com.mongodb.MongoException;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
-import java.nio.MappedByteBuffer;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,6 +42,7 @@ public class OfferService {
         return offerRepository.saveAll(filterOffersBeforeSave(offers));
     }
 
+    @CacheEvict(value = "offers", allEntries = true)
     public OfferDto addOffer(OfferDto offerDto) {
         Offer offerToInsert = OfferMapper.mapToOffer(offerDto);
         try {

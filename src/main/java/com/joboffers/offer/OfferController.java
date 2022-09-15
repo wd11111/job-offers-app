@@ -36,6 +36,5 @@ public class OfferController {
     ResponseEntity<OfferDto> addOffer(@RequestBody @Valid OfferDto offerDto) {
         return new ResponseEntity<>(offerService.addOffer(offerDto), HttpStatus.CREATED);
     }
-
 }
 
