@@ -1,6 +1,5 @@
 package com.joboffers.offer;
 
-import com.joboffers.model.Offer;
 import com.joboffers.model.OfferDto;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
