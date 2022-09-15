@@ -3,10 +3,12 @@ package com.joboffers.offer;
 import com.google.common.base.Strings;
 import com.joboffers.model.Offer;
 import com.joboffers.model.OfferDto;
+import com.joboffers.offer.exceptions.OfferDuplicateException;
 import com.joboffers.offer.exceptions.OfferNotFoundException;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,6 +40,17 @@ public class OfferService {
 
     public List<Offer> saveAllAfterFiltered(List<OfferDto> offers) {
         return offerRepository.saveAll(filterOffersBeforeSave(offers));
+    }
+
+    @CacheEvict(value = "offers", allEntries = true)
+    public OfferDto addOffer(OfferDto offerDto) {
+        Offer offerToInsert = OfferMapper.mapToOffer(offerDto);
+        try {
+            offerRepository.save(offerToInsert);
+            return offerDto;
+        }catch (DuplicateKeyException e) {
+            throw new OfferDuplicateException();
+        }
     }
 
     private List<Offer> filterOffersBeforeSave(List<OfferDto> offers) {
