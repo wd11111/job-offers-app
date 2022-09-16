@@ -6,17 +6,15 @@ import com.joboffers.security.filter.JwtAuthorizationFilter;
 import com.joboffers.security.handler.FailureHandler;
 import com.joboffers.security.handler.SuccessHandler;
 import com.joboffers.security.service.UserService;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 
 @Configuration
 @EnableWebSecurity
@@ -28,15 +26,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final ObjectMapper objectMapper;
     private final FailureHandler failureHandler;
     private final String secret;
+    private final AuthenticationEntryPoint authenticationEntryPoint;
 
     public SecurityConfig(UserService userService, SuccessHandler successHandler, PasswordEncoder passwordEncoder,
-                          ObjectMapper objectMapper, FailureHandler failureHandler, @Value("${jwt.secret}") String secret) {
+                          ObjectMapper objectMapper, FailureHandler failureHandler, @Value("${jwt.secret}") String secret, AuthenticationEntryPoint authenticationEntryPoint) {
         this.userService = userService;
         this.successHandler = successHandler;
         this.passwordEncoder = passwordEncoder;
         this.objectMapper = objectMapper;
         this.failureHandler = failureHandler;
         this.secret = secret;
+        this.authenticationEntryPoint = authenticationEntryPoint;
     }
 
     @Override
@@ -58,6 +58,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
                 .and()
                 .addFilter(filter())
                 .addFilter(new JwtAuthorizationFilter(authenticationManager(), userService, secret));

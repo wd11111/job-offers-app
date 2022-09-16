@@ -34,9 +34,9 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
             setDetails(request, token);
             return this.getAuthenticationManager().authenticate(token);
         } catch (IOException e) {
-            log.info("Error logging in: {}", e.getMessage());
-            throw new IllegalArgumentException(e.getMessage());
+            log.info("Error logging: wrong logging credentials");
+            response.setStatus(401);
+            return null;
         }
     }
-
 }

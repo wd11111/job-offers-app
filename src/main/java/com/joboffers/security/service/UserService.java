@@ -1,7 +1,7 @@
 package com.joboffers.security.service;
 
-import com.joboffers.security.repository.UserRepository;
 import com.joboffers.security.model.AppUser;
+import com.joboffers.security.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.User;
@@ -24,9 +24,10 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         AppUser user = userRepository.findByUsername(username)
-                .orElseThrow( () -> {
+                .orElseThrow(() -> {
                     log.info("User not found");
-                    throw new UsernameNotFoundException("Not found");});
+                    throw new UsernameNotFoundException("User not found");
+                });
         return (userToLoad(user));
     }
 
