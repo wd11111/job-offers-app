@@ -20,7 +20,7 @@ public class Offer {
     private String title;
     private String company;
     private String salary;
-    @Indexed(unique = true)
+    @Indexed(unique = true, name = "meta_url_index_unique")
     private String offerUrl;
 
 }
