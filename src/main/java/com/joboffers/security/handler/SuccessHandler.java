@@ -1,4 +1,4 @@
-package com.joboffers.security;
+package com.joboffers.security.handler;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -15,21 +15,18 @@ import java.io.IOException;
 import java.util.Date;
 
 @Component
-public class SuccesHandler extends SimpleUrlAuthenticationSuccessHandler{
+public class SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final long expirationTime;
     private final String secret;
 
-    public SuccesHandler(
-            @Value("${jwt.expirationTime}") long expirationTime,
-            @Value("${jwt.secret}") String secret) {
+    public SuccessHandler(@Value("${jwt.expirationTime}") long expirationTime, @Value("${jwt.secret}") String secret) {
         this.expirationTime = expirationTime;
         this.secret = secret;
     }
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-                                        Authentication authentication) throws IOException, ServletException {
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         UserDetails principal = (UserDetails) authentication.getPrincipal();
         String token = JWT.create()
                 .withSubject(principal.getUsername())

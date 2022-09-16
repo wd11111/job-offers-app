@@ -16,5 +16,8 @@ public class JobOffersApplication {
         SpringApplication.run(JobOffersApplication.class, args);
     }
 
-
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 }
