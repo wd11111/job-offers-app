@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableCaching
 @SpringBootApplication
 public class JobOffersApplication {
+
     public static void main(String[] args) {
         SpringApplication.run(JobOffersApplication.class, args);
     }
