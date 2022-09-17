@@ -4,23 +4,34 @@ import com.joboffers.model.Offer;
 import com.joboffers.model.OfferDto;
 import com.joboffers.offer.OfferRepository;
 import com.joboffers.offer.OfferService;
+import com.joboffers.offer.exceptions.OfferDuplicateException;
 import com.joboffers.offer.exceptions.OfferNotFoundException;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.DuplicateKeyException;
 
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.mock;
+import static org.mockito.ArgumentMatchers.anyIterable;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 public class OfferServiceUnitTests implements Samples {
 
-    OfferRepository offerRepository = mock(OfferRepository.class);
-    OfferService offerService = new OfferService(offerRepository);
+    @Mock
+    private OfferRepository offerRepository;
+    @InjectMocks
+    private OfferService offerService;
 
     @Test
     void should_return_list_of_three_dto_offers() {
@@ -33,7 +44,7 @@ public class OfferServiceUnitTests implements Samples {
         assertThat(offerList).containsAll(expectedOffers);
     }
 
-    @ParameterizedTest(name = "offer dto to return {0}, offer from repo {1}, given id {2}")
+    @ParameterizedTest(name = "expected offer dto {0}, offer from repo {1}, given id {2}")
     @ArgumentsSource(ProvideArgumentsOfOffers.class)
     void should_return_offer_dto_by_id(OfferDto expectedOffer, Offer offerFromRepo, String id) {
         when(offerRepository.findById(id)).thenReturn(Optional.of(offerFromRepo));
@@ -54,5 +65,42 @@ public class OfferServiceUnitTests implements Samples {
                 .hasMessageContaining(String.format("Offer with id %s not found", sampleId));
     }
 
+    @Test
+    void should_correctly_insert_offer() {
+        OfferDto expectedOffer = sampleOfferDto1();
+        Offer offerToSave = sampleOfferWithOutId1();
+        Offer offerFromRepo = sampleOffer1();
+        when(offerRepository.save(offerToSave)).thenReturn(offerFromRepo);
+
+        OfferDto offer = offerService.addOffer(expectedOffer);
+
+        assertThat(offer).isEqualTo(expectedOffer);
+    }
+
+    @Test
+    void should_throw_offer_duplicate_exception_when_offer_already_exists() {
+        Offer offerToRepo = sampleOfferWithOutId1();
+        OfferDto offerToSave = sampleOfferDto1();
+        when(offerRepository.save(offerToRepo)).thenThrow(DuplicateKeyException.class);
+
+        assertThatThrownBy(() -> {
+            offerService.addOffer(offerToSave);
+        }).isInstanceOf(OfferDuplicateException.class)
+                .hasMessageContaining("Offer with this url already exists");
+        verify(offerRepository, times(1)).save(offerToRepo);
+    }
+
+    @Test
+    void should_filter_duplicated_offers_correctly_and_save() {
+        List<OfferDto> offersWithDuplicate = List.of(sampleOfferDto1(), sampleOfferDto2(), sampleOfferDto3());
+
+        when(offerRepository.existsByOfferUrl("https://nofluffjobs.com/pl/job/remote-junior-java-developer-tutlo-yywmpzo0")).thenReturn(true);
+        when(offerRepository.saveAll(anyIterable()))
+                .thenAnswer(invocation -> invocation.getArgument(0));
+
+        List<Offer> offers = offerService.saveAllAfterFiltered(offersWithDuplicate);
+
+        assertThat(offers.size()).isEqualTo(2);
+    }
 
 }

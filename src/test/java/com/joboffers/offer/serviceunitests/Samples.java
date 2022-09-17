@@ -23,6 +23,33 @@ public interface Samples {
                 "https://nofluffjobs.com/pl/job/junior-framework-developer-blackbelt-holding-zrt-budapest-9wbjcnzy");
     }
 
+    default Offer sampleOfferWithOutId1() {
+        return Offer.builder()
+                .title("Remote Junior Java Developer")
+                .company("Tutlo sp zoo")
+                .salary("8 000 - 12 000 PLN")
+                .offerUrl("https://nofluffjobs.com/pl/job/remote-junior-java-developer-tutlo-yywmpzo0")
+                .build();
+    }
+
+    default Offer sampleOfferWithOutId2() {
+        return Offer.builder()
+                .title("Junior Salesforce/Fullstack Developer")
+                .company("Youdigital Sp. z o.o.")
+                .salary("4 500 - 8 500 PLN")
+                .offerUrl("https://nofluffjobs.com/pl/job/junior-salesforce-fullstack-developer-youdigital-lodz-jzt8qjvv")
+                .build();
+    }
+
+    default Offer sampleOfferWithOutId3() {
+        return Offer.builder()
+                .title("Junior Framework Developer")
+                .company("Blackbelt Holding Zrt")
+                .salary("4 689 - 7 034 PLN")
+                .offerUrl("https://nofluffjobs.com/pl/job/junior-framework-developer-blackbelt-holding-zrt-budapest-9wbjcnzy")
+                .build();
+    }
+
     default OfferDto sampleOfferDto1() {
         return new OfferDto("Remote Junior Java Developer",
                 "Tutlo sp zoo", "8 000 - 12 000 PLN",
