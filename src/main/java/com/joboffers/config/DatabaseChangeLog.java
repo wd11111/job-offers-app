@@ -4,6 +4,8 @@ import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
 import com.joboffers.model.Offer;
 import com.joboffers.offer.OfferRepository;
+import com.joboffers.security.model.AppUser;
+import com.joboffers.security.repository.UserRepository;
 
 import java.util.List;
 
@@ -12,6 +14,14 @@ public class DatabaseChangeLog {
     @ChangeSet(order = "001", id = "seedDatabase", author = "wd")
     public void seedDatabase(OfferRepository offerRepository) {
         offerRepository.insert(List.of(sampleDtoOffer1(), sampleDtoOffer2()));
+    }
+
+    @ChangeSet(order = "002", id = "addUser", author = "wd")
+    public void addUser(UserRepository userRepository) {
+        AppUser appUser = new AppUser();
+        appUser.setUsername("admin");
+        appUser.setPassword("password");
+        userRepository.insert(appUser);
     }
 
     private Offer sampleDtoOffer1() {
