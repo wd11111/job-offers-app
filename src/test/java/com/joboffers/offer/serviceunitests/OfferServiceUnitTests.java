@@ -4,6 +4,7 @@ import com.joboffers.model.Offer;
 import com.joboffers.model.OfferDto;
 import com.joboffers.offer.OfferRepository;
 import com.joboffers.offer.OfferService;
+import com.joboffers.offer.exceptions.OfferNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -41,7 +43,16 @@ public class OfferServiceUnitTests implements Samples {
         assertThat(offer).isEqualTo(expectedOffer);
     }
 
+    @Test
+    void should_throw_exception_when_offer_does_not_exist() {
+        String sampleId = "63223dcb1a420777c05ffd7c";
+        when(offerRepository.findById(sampleId)).thenReturn(Optional.empty());
 
+        assertThatThrownBy(() -> {
+            offerService.getOfferById(sampleId);
+        }).isInstanceOf(OfferNotFoundException.class)
+                .hasMessageContaining(String.format("Offer with id %s not found", sampleId));
+    }
 
 
 }
