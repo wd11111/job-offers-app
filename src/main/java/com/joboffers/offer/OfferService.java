@@ -53,6 +53,8 @@ public class OfferService {
         }
     }
 
+
+
     private List<Offer> filterOffersBeforeSave(List<OfferDto> offers) {
         return offers.stream()
                 .filter(offer -> !Strings.isNullOrEmpty(offer.getOfferUrl()))
