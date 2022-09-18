@@ -3,6 +3,7 @@ package com.joboffers.offer;
 import com.joboffers.JobOffersApplication;
 import com.joboffers.model.Offer;
 import com.joboffers.model.OfferDto;
+import com.joboffers.offer.serviceunitests.Samples;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(classes = JobOffersApplication.class)
 @TestPropertySource(properties = "spring.cache.type=none")
 @ActiveProfiles("container")
-public class OfferServiceContainerTests implements SampleOffers {
+public class OfferServiceContainerTests implements Samples {
 
     @Container
     private final static MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:4.4.4");
@@ -35,7 +36,7 @@ public class OfferServiceContainerTests implements SampleOffers {
 
     @Test
     void should_return_all_offers() {
-        List<OfferDto> expectedOffers = List.of(sampleDtoOffer1(), sampleDtoOffer2());
+        List<OfferDto> expectedOffers = List.of(sampleOfferDto1(), sampleOfferDto2());
 
         List<OfferDto> offersFromDb = offerService.getOfferList();
 
@@ -45,7 +46,7 @@ public class OfferServiceContainerTests implements SampleOffers {
 
     @Test
     void should_return_one_offer_by_id() {
-        OfferDto expectedOffer = sampleDtoOffer1();
+        OfferDto expectedOffer = sampleOfferDto1();
         String offerId = "6321d387c9db7f57affe5049";
 
         OfferDto offerFromDb = offerService.getOfferById(offerId);

@@ -1,7 +1,13 @@
 package com.joboffers.offer.serviceunitests;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.joboffers.model.Offer;
 import com.joboffers.model.OfferDto;
+import org.mockito.ArgumentMatchers;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
+import java.util.Map;
 
 public interface Samples {
 
@@ -66,5 +72,29 @@ public interface Samples {
         return new OfferDto("Junior Framework Developer",
                 "Blackbelt Holding Zrt", "4 689 - 7 034 PLN",
                 "https://nofluffjobs.com/pl/job/junior-framework-developer-blackbelt-holding-zrt-budapest-9wbjcnzy");
+    }
+
+    default OfferDto offerDtoWithBlancAndEmptyFields() {
+        OfferDto offerDto = new OfferDto();
+        offerDto.setOfferUrl("offerUrl");
+        offerDto.setTitle("");
+        offerDto.setCompany("company");
+       return offerDto;
+    }
+
+    default String argumentNotValidResponse() {
+       return "{\"salary\":\"can not be null\"}";
+    }
+
+    default List<OfferDto> sampleListOfOfferDto() {
+        return List.of(sampleOfferDto1(), sampleOfferDto2());
+    }
+
+    default String sampleUrlForId() {
+        return "/offers/1";
+    }
+
+    default String anyId() {
+        return ArgumentMatchers.anyString();
     }
 }

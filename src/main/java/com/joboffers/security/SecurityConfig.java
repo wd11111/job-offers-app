@@ -6,6 +6,7 @@ import com.joboffers.security.filter.JwtAuthorizationFilter;
 import com.joboffers.security.handler.FailureHandler;
 import com.joboffers.security.handler.SuccessHandler;
 import com.joboffers.security.service.UserService;
+import com.joboffers.security.service.UserServiceInterface;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -20,7 +21,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserService userService;
+    private final UserServiceInterface userService;
     private final SuccessHandler successHandler;
     private final PasswordEncoder passwordEncoder;
     private final ObjectMapper objectMapper;
