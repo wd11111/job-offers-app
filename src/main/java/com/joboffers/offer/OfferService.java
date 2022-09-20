@@ -21,14 +21,14 @@ public class OfferService {
     OfferRepository offerRepository;
 
     @Cacheable(value = "offers")
-    public List<OfferDto> getOfferList() {
+    public List<OfferDto> findAll() {
         List<OfferDto> offerDtoList = offerRepository.findAll().stream()
                 .map(OfferMapper::mapToOfferDto)
                 .collect(Collectors.toList());
         return offerDtoList;
     }
 
-    public OfferDto getOfferById(String id) {
+    public OfferDto findById(String id) {
         return offerRepository.findById(id)
                 .map(OfferMapper::mapToOfferDto)
                 .orElseThrow(() -> new OfferNotFoundException(id));
@@ -39,8 +39,10 @@ public class OfferService {
     }
 
     @CacheEvict(value = "offers", allEntries = true)
-    public List<Offer> saveAllAfterFiltered(List<OfferDto> offers) {
-        return offerRepository.saveAll(filterOffersBeforeSave(offers));
+    public List<OfferDto> saveAllAfterFiltered(List<OfferDto> offers) {
+        List<OfferDto> filteredOffers = filterOffersBeforeSave(offers);
+        offerRepository.saveAll(mapToOffers(filteredOffers));
+        return filteredOffers;
     }
 
     @CacheEvict(value = "offers", allEntries = true)
@@ -54,10 +56,15 @@ public class OfferService {
         }
     }
 
-    private List<Offer> filterOffersBeforeSave(List<OfferDto> offers) {
+    private List<OfferDto> filterOffersBeforeSave(List<OfferDto> offers) {
         return offers.stream()
                 .filter(offer -> !Strings.isNullOrEmpty(offer.getOfferUrl()))
                 .filter(offer -> !offerRepository.existsByOfferUrl(offer.getOfferUrl()))
+                .collect(Collectors.toList());
+    }
+
+    private List<Offer> mapToOffers(List<OfferDto> offers) {
+        return offers.stream()
                 .map(OfferMapper::mapToOffer)
                 .collect(Collectors.toList());
     }

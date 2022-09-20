@@ -23,12 +23,12 @@ public class OfferController {
 
     @GetMapping
     ResponseEntity<List<OfferDto>> getOfferList() {
-        return ResponseEntity.ok(offerService.getOfferList());
+        return ResponseEntity.ok(offerService.findAll());
     }
 
     @GetMapping("/{id}")
     ResponseEntity<OfferDto> getOfferByID(@PathVariable String id) {
-        return ResponseEntity.ok(offerService.getOfferById(id));
+        return ResponseEntity.ok(offerService.findById(id));
     }
 
     @PostMapping("/add")

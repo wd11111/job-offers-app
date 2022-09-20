@@ -1,9 +1,12 @@
-package com.joboffers.offer;
+package com.joboffers.offer.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.joboffers.offer.OfferController;
+import com.joboffers.offer.OfferRepository;
+import com.joboffers.offer.OfferService;
 import com.joboffers.offer.exceptions.OfferControllerExceptionHandler;
 import com.joboffers.offer.exceptions.OfferNotFoundException;
-import com.joboffers.offer.serviceunitests.Samples;
+import com.joboffers.offer.service.Samples;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
@@ -17,13 +20,12 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static com.joboffers.offer.ResponseBodyAssert.then;
+import static com.joboffers.offer.controller.ResponseBodyAssertMvc.then;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @WebMvcTest(controllers = OfferController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
 @ContextConfiguration(classes = MockMvcConfig.class)
-//@TestPropertySource(properties = "mongock.enabled=false")
 
 class OfferControllerTest implements Samples {
     @MockBean
@@ -38,7 +40,7 @@ class OfferControllerTest implements Samples {
     @Test
     void should_return_ok_status_when_get_for_offers() throws Exception {
         String expectedResponseBody = objectMapper.writeValueAsString(sampleListOfOfferDto());
-        when(offerService.getOfferList()).thenReturn(sampleListOfOfferDto());
+        when(offerService.findAll()).thenReturn(sampleListOfOfferDto());
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/offers"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -50,7 +52,7 @@ class OfferControllerTest implements Samples {
     @Test
     void should_return_ok_status_when_get_for_offer_by_id() throws Exception {
         String expectedResponseBody = objectMapper.writeValueAsString((sampleOfferDto1()));
-        when(offerService.getOfferById(anyId())).thenReturn(sampleOfferDto1());
+        when(offerService.findById(anyId())).thenReturn(sampleOfferDto1());
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get(sampleUrlForId()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -61,7 +63,7 @@ class OfferControllerTest implements Samples {
 
     @Test
     void should_return_status_not_found_when_offer_does_not_exist() throws Exception {
-        when(offerService.getOfferById(anyId())).thenThrow(OfferNotFoundException.class);
+        when(offerService.findById(anyId())).thenThrow(OfferNotFoundException.class);
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get(sampleUrlForId()))
                 .andExpect(MockMvcResultMatchers.status().isNotFound())

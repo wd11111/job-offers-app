@@ -1,4 +1,4 @@
-package com.joboffers.offer.serviceunitests;
+package com.joboffers.offer.service;
 
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.provider.Arguments;

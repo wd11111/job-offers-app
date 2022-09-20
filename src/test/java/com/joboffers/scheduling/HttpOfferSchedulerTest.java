@@ -1,4 +1,4 @@
-package com.joboffers.offer.scheduling.scheduling;
+package com.joboffers.scheduling;
 
 import com.joboffers.infrastructure.RemoteOfferClient;
 import com.joboffers.offer.OfferService;
@@ -37,8 +37,6 @@ class HttpOfferSchedulerTest {
 
     }
 }
-
-
 
 
 

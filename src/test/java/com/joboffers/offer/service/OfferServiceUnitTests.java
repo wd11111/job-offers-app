@@ -1,4 +1,4 @@
-package com.joboffers.offer.serviceunitests;
+package com.joboffers.offer.service;
 
 import com.joboffers.model.Offer;
 import com.joboffers.model.OfferDto;
@@ -39,7 +39,7 @@ public class OfferServiceUnitTests implements Samples {
         List<Offer> offersFromRepo = List.of(sampleOffer1(), sampleOffer2(), sampleOffer3());
         when(offerRepository.findAll()).thenReturn(offersFromRepo);
 
-        List<OfferDto> offerList = offerService.getOfferList();
+        List<OfferDto> offerList = offerService.findAll();
 
         assertThat(offerList).containsAll(expectedOffers);
     }
@@ -49,7 +49,7 @@ public class OfferServiceUnitTests implements Samples {
     void should_return_offer_dto_by_id(OfferDto expectedOffer, Offer offerFromRepo, String id) {
         when(offerRepository.findById(id)).thenReturn(Optional.of(offerFromRepo));
 
-        OfferDto offer = offerService.getOfferById(id);
+        OfferDto offer = offerService.findById(id);
 
         assertThat(offer).isEqualTo(expectedOffer);
     }
@@ -60,7 +60,7 @@ public class OfferServiceUnitTests implements Samples {
         when(offerRepository.findById(sampleId)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> {
-            offerService.getOfferById(sampleId);
+            offerService.findById(sampleId);
         }).isInstanceOf(OfferNotFoundException.class)
                 .hasMessageContaining(String.format("Offer with id %s not found", sampleId));
     }
@@ -68,18 +68,19 @@ public class OfferServiceUnitTests implements Samples {
     @Test
     void should_correctly_insert_offer() {
         OfferDto expectedOffer = sampleOfferDto1();
-        Offer offerToSave = sampleOfferWithOutId1();
+        Offer offerToSave = sampleOfferWithoutId1();
         Offer offerFromRepo = sampleOffer1();
         when(offerRepository.save(offerToSave)).thenReturn(offerFromRepo);
 
-        OfferDto offer = offerService.addOffer(expectedOffer);
+        OfferDto actualOffer = offerService.addOffer(expectedOffer);
 
-        assertThat(offer).isEqualTo(expectedOffer);
+        assertThat(actualOffer).isEqualTo(expectedOffer);
+        verify(offerRepository, times(1)).save(offerToSave);
     }
 
     @Test
     void should_throw_offer_duplicate_exception_when_offer_already_exists() {
-        Offer offerToRepo = sampleOfferWithOutId1();
+        Offer offerToRepo = sampleOfferWithoutId1();
         OfferDto offerToSave = sampleOfferDto1();
         when(offerRepository.save(offerToRepo)).thenThrow(DuplicateKeyException.class);
 
@@ -98,7 +99,7 @@ public class OfferServiceUnitTests implements Samples {
         when(offerRepository.saveAll(anyIterable()))
                 .thenAnswer(invocation -> invocation.getArgument(0));
 
-        List<Offer> offers = offerService.saveAllAfterFiltered(offersWithDuplicate);
+        List<OfferDto> offers = offerService.saveAllAfterFiltered(offersWithDuplicate);
 
         assertThat(offers.size()).isEqualTo(2);
     }

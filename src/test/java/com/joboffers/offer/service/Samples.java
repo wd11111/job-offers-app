@@ -1,13 +1,10 @@
-package com.joboffers.offer.serviceunitests;
+package com.joboffers.offer.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.joboffers.model.Offer;
 import com.joboffers.model.OfferDto;
 import org.mockito.ArgumentMatchers;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
-import java.util.Map;
 
 public interface Samples {
 
@@ -29,7 +26,19 @@ public interface Samples {
                 "https://nofluffjobs.com/pl/job/junior-framework-developer-blackbelt-holding-zrt-budapest-9wbjcnzy");
     }
 
-    default Offer sampleOfferWithOutId1() {
+    default Offer sampleOffer4() {
+        return new Offer("id1", "Junior Java Developer",
+                "Sample Company", "Sample Salary",
+                "Sample url 1");
+    }
+
+    default Offer sampleOffer5() {
+        return new Offer("id2", "Junior Java Developer",
+                "Sample Company", "Sample Salary",
+                "Sample url 2");
+    }
+
+    default Offer sampleOfferWithoutId1() {
         return Offer.builder()
                 .title("Remote Junior Java Developer")
                 .company("Tutlo sp zoo")
@@ -38,7 +47,7 @@ public interface Samples {
                 .build();
     }
 
-    default Offer sampleOfferWithOutId2() {
+    default Offer sampleOfferWithoutId2() {
         return Offer.builder()
                 .title("Junior Salesforce/Fullstack Developer")
                 .company("Youdigital Sp. z o.o.")
@@ -47,12 +56,30 @@ public interface Samples {
                 .build();
     }
 
-    default Offer sampleOfferWithOutId3() {
+    default Offer sampleOfferWithoutId3() {
         return Offer.builder()
                 .title("Junior Framework Developer")
                 .company("Blackbelt Holding Zrt")
                 .salary("4 689 - 7 034 PLN")
                 .offerUrl("https://nofluffjobs.com/pl/job/junior-framework-developer-blackbelt-holding-zrt-budapest-9wbjcnzy")
+                .build();
+    }
+
+    default Offer sampleOfferWithoutId4() {
+        return Offer.builder()
+                .title("Junior Java Developer")
+                .company("Sample Company")
+                .salary("Sample Salary")
+                .offerUrl("Sample url 1")
+                .build();
+    }
+
+    default Offer sampleOfferWithoutId5() {
+        return Offer.builder()
+                .title("Junior Java Developer")
+                .company("Sample Company")
+                .salary("Sample Salary")
+                .offerUrl("Sample url 2")
                 .build();
     }
 
@@ -74,16 +101,28 @@ public interface Samples {
                 "https://nofluffjobs.com/pl/job/junior-framework-developer-blackbelt-holding-zrt-budapest-9wbjcnzy");
     }
 
+    default OfferDto sampleOfferDto4() {
+        return new OfferDto("Junior Java Developer",
+                "Sample Company", "Sample Salary",
+                "Sample url 1");
+    }
+
+    default OfferDto sampleOfferDto5() {
+        return new OfferDto("Junior Spring Developer",
+                "Sample Company", "Sample Salary",
+                "Sample url 2");
+    }
+
     default OfferDto offerDtoWithBlancAndEmptyFields() {
         OfferDto offerDto = new OfferDto();
         offerDto.setOfferUrl("offerUrl");
         offerDto.setTitle("");
         offerDto.setCompany("company");
-       return offerDto;
+        return offerDto;
     }
 
     default String argumentNotValidResponse() {
-       return "{\"salary\":\"can not be null\"}";
+        return "{\"salary\":\"can not be null\"}";
     }
 
     default List<OfferDto> sampleListOfOfferDto() {
