@@ -30,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final AuthenticationEntryPoint authenticationEntryPoint;
 
     public SecurityConfig(UserService userService, SuccessHandler successHandler, PasswordEncoder passwordEncoder,
-                          ObjectMapper objectMapper, FailureHandler failureHandler, @Value("${jwt.secret}") String secret, AuthenticationEntryPoint authenticationEntryPoint) {
+                          ObjectMapper objectMapper, FailureHandler failureHandler, @Value("${jwt.secret:secretkey123}") String secret, AuthenticationEntryPoint authenticationEntryPoint) {
         this.userService = userService;
         this.successHandler = successHandler;
         this.passwordEncoder = passwordEncoder;

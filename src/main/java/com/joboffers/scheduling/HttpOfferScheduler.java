@@ -19,7 +19,7 @@ public class HttpOfferScheduler {
     private final OfferService offerService;
     private final RemoteOfferClient offerClient;
 
-    @Scheduled(fixedDelayString = "${delay.hours}")
+    @Scheduled(fixedDelayString = "${delay.hours:PT3H}")
     void saveOffersFromHttpService() {
         final List<OfferDto> offersToDb = offerClient.getOffers();
         final List<Offer> savedOffers = offerService.saveAllAfterFiltered(offersToDb);

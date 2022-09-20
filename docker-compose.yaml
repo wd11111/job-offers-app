@@ -6,8 +6,8 @@ services:
         restart: always
         ports: 
             - 27017:27017
-        volumes: 
-            - data:/data
+        volumes:
+            - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
         environment: 
             - MONGO_INITDB_ROOT_USERNAME=rootuser
             - MONGO_INITDB_ROOT_PASSWORD=rootpass

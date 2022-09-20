@@ -38,6 +38,7 @@ public class OfferService {
         return offerRepository.saveAll(offers);
     }
 
+    @CacheEvict(value = "offers", allEntries = true)
     public List<Offer> saveAllAfterFiltered(List<OfferDto> offers) {
         return offerRepository.saveAll(filterOffersBeforeSave(offers));
     }
@@ -48,12 +49,10 @@ public class OfferService {
         try {
             offerRepository.save(offerToInsert);
             return offerDto;
-        }catch (DuplicateKeyException e) {
+        } catch (DuplicateKeyException e) {
             throw new OfferDuplicateException();
         }
     }
-
-
 
     private List<Offer> filterOffersBeforeSave(List<OfferDto> offers) {
         return offers.stream()
@@ -62,4 +61,4 @@ public class OfferService {
                 .map(OfferMapper::mapToOffer)
                 .collect(Collectors.toList());
     }
- }
+}
