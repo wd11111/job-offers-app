@@ -113,6 +113,12 @@ public interface Samples {
                 "Sample url 2");
     }
 
+    default OfferDto sampleOfferDto6() {
+        return new OfferDto("Junior Spring Developer",
+                "Sample Company", "Sample Salary",
+                "Sample url 3");
+    }
+
     default OfferDto offerDtoWithBlancAndEmptyFields() {
         OfferDto offerDto = new OfferDto();
         offerDto.setOfferUrl("offerUrl");

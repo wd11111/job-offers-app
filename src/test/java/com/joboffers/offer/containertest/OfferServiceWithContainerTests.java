@@ -75,7 +75,8 @@ class OfferServiceWithContainerTests implements Samples {
     @Test
     void should_correctly_add_offer_to_db() throws UnsupportedEncodingException {
         OfferDto offerToAdd = sampleOfferDto3();
-        then(offerRepository.existsByOfferUrl(offerToAdd.getOfferUrl())).isFalse();
+        String urlOfOffer = offerToAdd.getOfferUrl();
+        then(offerRepository.existsByOfferUrl(urlOfOffer)).isFalse();
 
         OfferDto addedOffer = offerService.addOffer(offerToAdd);
         Offer actualOffer = offerRepository.findByOfferUrl(addedOffer.getOfferUrl());
@@ -85,12 +86,37 @@ class OfferServiceWithContainerTests implements Samples {
 
     @Test
     void should_not_add_offer_when_url_is_a_duplicate() {
-        OfferDto offerToInsert = sampleOfferDto1();
-        then(offerRepository.existsByOfferUrl(offerToInsert.getOfferUrl())).isTrue();
+        OfferDto offerToAdd = sampleOfferDto1();
+        String urlOfOffer = offerToAdd.getOfferUrl();
+        then(offerRepository.existsByOfferUrl(urlOfOffer)).isTrue();
 
         assertThatThrownBy(() -> {
-            offerService.addOffer(offerToInsert);
+            offerService.addOffer(offerToAdd);
         }).isInstanceOf(OfferDuplicateException.class)
                 .hasMessageContaining("Offer with this url already exists");
+    }
+
+    @Test
+    void should_add_list_of_two_offers() {
+        List<OfferDto> offersToAdd = List.of(sampleOfferDto4(), sampleOfferDto5());
+        OfferListAssert.assertThatOffersDoesNotExistInDb(offersToAdd, offerRepository);
+
+        List<OfferDto> savedOffers = offerService.saveAllAfterFiltered(offersToAdd);
+
+        OfferListAssert.assertThatOffersWereAdded(savedOffers, offerRepository);
+    }
+
+    @Test
+    void should_add_only_one_offer_after_list_of_offers_is_filtered_of_duplicates() {
+        List<OfferDto> offersToAddWithOneDuplicate = List.of(sampleOfferDto1(), sampleOfferDto6());
+        String urlOfNonDuplicateOffer = sampleOfferDto6().getOfferUrl();
+        String urlOfDuplicateOffer = sampleOfferDto1().getOfferUrl();
+        then(offerRepository.existsByOfferUrl(urlOfNonDuplicateOffer)).isFalse();
+        then(offerRepository.existsByOfferUrl(urlOfDuplicateOffer)).isTrue();
+
+        List<OfferDto> savedOffers = offerService.saveAllAfterFiltered(offersToAddWithOneDuplicate);
+
+        assertThat(savedOffers.size()).isEqualTo(1);
+        assertThat(offerRepository.existsByOfferUrl(urlOfNonDuplicateOffer)).isTrue();
     }
 }
