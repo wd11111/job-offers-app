@@ -16,7 +16,7 @@ import static org.awaitility.Awaitility.await;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.verify;
 
-@SpringBootTest(properties = {"delay.hours=PT4S"})
+@SpringBootTest(properties = {"delay.hours=PT2S"})
 @SpringJUnitConfig(SchedulingConfiguration.class)
 class HttpOfferSchedulerTest {
 
@@ -32,9 +32,8 @@ class HttpOfferSchedulerTest {
     @Test
     public void whenWaitOneSecond_thenScheduledIsCalledAtLeastTenTimes() {
         await()
-                .atMost(Duration.ofSeconds(5))
+                .atMost(Duration.ofSeconds(3))
                 .untilAsserted(() -> verify(httpOfferScheduler, atLeast(2)).saveOffersFromHttpService());
-
     }
 }
 

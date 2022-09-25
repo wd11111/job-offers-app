@@ -127,10 +127,6 @@ public interface Samples {
         return offerDto;
     }
 
-    default String argumentNotValidResponse() {
-        return "{\"salary\":\"can not be null\"}";
-    }
-
     default List<OfferDto> sampleListOfOfferDto() {
         return List.of(sampleOfferDto1(), sampleOfferDto2());
     }

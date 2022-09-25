@@ -20,13 +20,11 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static com.joboffers.offer.controller.ResponseBodyAssertMvc.then;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @WebMvcTest(controllers = OfferController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
 @ContextConfiguration(classes = MockMvcConfig.class)
-
 class OfferControllerTest implements Samples {
     @MockBean
     private OfferService offerService;
@@ -37,6 +35,10 @@ class OfferControllerTest implements Samples {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    private OfferControllerExceptionHandler offerControllerExceptionHandler;
+
+
     @Test
     void should_return_ok_status_when_get_for_offers() throws Exception {
         String expectedResponseBody = objectMapper.writeValueAsString(sampleListOfOfferDto());
@@ -46,11 +48,11 @@ class OfferControllerTest implements Samples {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
 
-        then(mvcResult).hasTheSameBodyAs(expectedResponseBody);
+        ResponseBodyAssertMvc.then(mvcResult).hasTheSameBodyAs(expectedResponseBody);
     }
 
     @Test
-    void should_return_ok_status_when_get_for_offer_by_id() throws Exception {
+    void should_return_status_ok_when_get_for_offer_by_id() throws Exception {
         String expectedResponseBody = objectMapper.writeValueAsString((sampleOfferDto1()));
         when(offerService.findById(anyId())).thenReturn(sampleOfferDto1());
 
@@ -58,14 +60,14 @@ class OfferControllerTest implements Samples {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
 
-        then(mvcResult).hasTheSameBodyAs(expectedResponseBody);
+        ResponseBodyAssertMvc.then(mvcResult).hasTheSameBodyAs(expectedResponseBody);
     }
 
     @Test
     void should_return_status_not_found_when_offer_does_not_exist() throws Exception {
-        when(offerService.findById(anyId())).thenThrow(OfferNotFoundException.class);
+        when(offerService.findById("1")).thenThrow(OfferNotFoundException.class);
 
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get(sampleUrlForId()))
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/offers/1"))
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
                 .andReturn();
     }
@@ -81,7 +83,7 @@ class OfferControllerTest implements Samples {
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andReturn();
 
-        then(mvcResult).hasTheSameBodyAs(requestBody);
+        ResponseBodyAssertMvc.then(mvcResult).hasTheSameBodyAs(requestBody);
     }
 
     @Test
