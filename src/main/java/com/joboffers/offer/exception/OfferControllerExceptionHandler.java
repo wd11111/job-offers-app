@@ -1,5 +1,6 @@
-package com.joboffers.offer.exceptions;
+package com.joboffers.offer.exception;
 
+import com.joboffers.offer.OfferController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -14,7 +15,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import java.util.HashMap;
 import java.util.Map;
 
-@RestControllerAdvice
+@RestControllerAdvice(basePackageClasses = OfferController.class)
 @Slf4j
 public class OfferControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
@@ -31,16 +32,17 @@ public class OfferControllerExceptionHandler extends ResponseEntityExceptionHand
         log.info(e.getMessage());
         return new ResponseEntity<>(offerErrorResponse, HttpStatus.CONFLICT);
     }
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException e, HttpHeaders headers, HttpStatus status, WebRequest request) {
-            Map<String, String> errors = new HashMap<>();
-            e.getBindingResult().getAllErrors().forEach((error) -> {
-                String fieldName = ((FieldError) error).getField();
-                String errorMessage = error.getDefaultMessage();
-                errors.put(fieldName, errorMessage);
-            });
-            log.info("Validation not passed");
-            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        Map<String, String> errors = new HashMap<>();
+        e.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        log.info("Validation not passed");
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(WrongCredentials.class)

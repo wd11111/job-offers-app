@@ -6,10 +6,13 @@ import com.joboffers.model.Offer;
 import com.joboffers.offer.OfferRepository;
 import com.joboffers.security.model.AppUser;
 import com.joboffers.security.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 @ChangeLog
 public class DatabaseChangeLog {
+
     @ChangeSet(order = "001", id = "seedDatabase", author = "wd")
     public void seedDatabase(OfferRepository offerRepository) {
         offerRepository.insert(List.of(sampleOffer1(), sampleOffer2()));
@@ -18,7 +21,7 @@ public class DatabaseChangeLog {
     public void addUser(UserRepository userRepository) {
         AppUser appUser = new AppUser();
         appUser.setUsername("admin");
-        appUser.setPassword("password");
+        appUser.setPassword("$2a$10$q119A32AJDVou4RQ1ZT7buanhoj6U3f1eKJLdJuf2ldJd/7GbiLf.");
         userRepository.insert(appUser);
     }
 

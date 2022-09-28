@@ -1,16 +1,13 @@
-package com.joboffers.offer.exceptions;
+package com.joboffers.security.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.springframework.http.HttpStatus;
 
 @AllArgsConstructor
-@EqualsAndHashCode
 @Data
-public class OfferErrorResponse {
+public class UserErrorResponse {
 
     private String message;
     private HttpStatus httpStatus;
-
 }

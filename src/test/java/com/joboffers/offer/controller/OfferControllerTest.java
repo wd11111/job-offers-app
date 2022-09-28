@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.joboffers.offer.OfferController;
 import com.joboffers.offer.OfferRepository;
 import com.joboffers.offer.OfferService;
-import com.joboffers.offer.exceptions.OfferControllerExceptionHandler;
-import com.joboffers.offer.exceptions.OfferNotFoundException;
+import com.joboffers.offer.exception.OfferControllerExceptionHandler;
+import com.joboffers.offer.exception.OfferNotFoundException;
 import com.joboffers.offer.service.Samples;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +34,6 @@ class OfferControllerTest implements Samples {
 
     @Autowired
     private ObjectMapper objectMapper;
-
-    @Autowired
-    private OfferControllerExceptionHandler offerControllerExceptionHandler;
-
 
     @Test
     void should_return_ok_status_when_get_for_offers() throws Exception {

@@ -1,4 +1,4 @@
-package com.joboffers.offer.exceptions;
+package com.joboffers.offer.exception;
 
 public class OfferNotFoundException extends RuntimeException{
 

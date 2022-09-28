@@ -1,7 +1,7 @@
 package com.joboffers.offer;
 
 import com.joboffers.model.OfferDto;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,11 +15,11 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@AllArgsConstructor
 @RequestMapping("/offers")
+@RequiredArgsConstructor
 public class OfferController {
 
-    OfferService offerService;
+    private final OfferService offerService;
 
     @GetMapping
     ResponseEntity<List<OfferDto>> getOfferList() {

@@ -1,8 +1,8 @@
-package com.joboffers.offer.exceptions;
+package com.joboffers.offer.exception;
 
 public class OfferDuplicateException extends RuntimeException{
 
     public OfferDuplicateException() {
-        super(String.format("Offer with this url already exists"));
+        super("Offer with this url already exists");
     }
 }

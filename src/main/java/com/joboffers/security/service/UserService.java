@@ -1,9 +1,12 @@
 package com.joboffers.security.service;
 
+import com.joboffers.security.exception.UserDuplicateException;
 import com.joboffers.security.model.AppUser;
+import com.joboffers.security.model.RegisterCredentials;
 import com.joboffers.security.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -31,7 +34,17 @@ public class UserService implements UserDetailsService {
         return (userToLoad(user));
     }
 
+    public void register(RegisterCredentials registerCredentials) {
+        String encodedPassword = passwordEncoder.encode(registerCredentials.getPassword());
+        AppUser user = new AppUser(null, registerCredentials.getUserName(), encodedPassword);
+        try {
+            userRepository.save(user);
+        } catch (DuplicateKeyException e) {
+            throw new UserDuplicateException(user.getUsername());
+        }
+    }
+
     private User userToLoad(AppUser user) {
-        return new User(user.getUsername(), passwordEncoder.encode(user.getPassword()), Collections.emptyList());
+        return new User(user.getUsername(), user.getPassword(), Collections.emptyList());
     }
 }

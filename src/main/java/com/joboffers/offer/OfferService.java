@@ -3,9 +3,9 @@ package com.joboffers.offer;
 import com.google.common.base.Strings;
 import com.joboffers.model.Offer;
 import com.joboffers.model.OfferDto;
-import com.joboffers.offer.exceptions.OfferDuplicateException;
-import com.joboffers.offer.exceptions.OfferNotFoundException;
-import lombok.AllArgsConstructor;
+import com.joboffers.offer.exception.OfferDuplicateException;
+import com.joboffers.offer.exception.OfferNotFoundException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -16,11 +16,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 public class OfferService {
 
-    OfferRepository offerRepository;
+    private final OfferRepository offerRepository;
 
     @Cacheable(value = "offers")
     public List<OfferDto> findAll() {
