@@ -1,7 +1,7 @@
 package com.joboffers.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.joboffers.security.model.UserDto;
+import com.joboffers.security.model.LoginCredentials;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,7 +28,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
             while ((line = reader.readLine()) != null) {
                 sb.append(line);
             }
-            UserDto authRequest = objectMapper.readValue(sb.toString(), UserDto.class);
+            LoginCredentials authRequest = objectMapper.readValue(sb.toString(), LoginCredentials.class);
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
                     authRequest.getUsername(), authRequest.getPassword());
             setDetails(request, token);

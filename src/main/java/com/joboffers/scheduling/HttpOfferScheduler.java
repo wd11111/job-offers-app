@@ -1,7 +1,6 @@
 package com.joboffers.scheduling;
 
 import com.joboffers.infrastructure.RemoteOfferClient;
-import com.joboffers.model.Offer;
 import com.joboffers.model.OfferDto;
 import com.joboffers.offer.OfferService;
 import lombok.AllArgsConstructor;

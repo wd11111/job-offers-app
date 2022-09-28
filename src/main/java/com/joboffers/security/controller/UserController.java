@@ -1,6 +1,6 @@
 package com.joboffers.security.controller;
 
-import com.joboffers.security.model.UserDto;
+import com.joboffers.security.model.LoginCredentials;
 import com.joboffers.security.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +16,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public void login(@RequestBody UserDto userDto) {
-        userService.loadUserByUsername(userDto.getUsername());
+    public void login(@RequestBody LoginCredentials loginCredentials) {
+        userService.loadUserByUsername(loginCredentials.getUsername());
     }
 }

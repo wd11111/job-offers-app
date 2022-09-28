@@ -12,7 +12,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-class OfferHttpClientTest implements SampleRestTemplateExchangeResponse, SampleOfferResponse, SampleOfferDto, Samples {
+class OfferHttpClientTest implements SampleRestTemplateExchangeResponse, SampleOfferResponse, Samples {
 
     RestTemplate restTemplate = Mockito.mock(RestTemplate.class);
     RemoteOfferClient offerHttpClient = new OfferHttpClient(restTemplate, "url", 5057);

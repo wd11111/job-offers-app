@@ -39,6 +39,7 @@ public class OfferControllerExceptionHandler extends ResponseEntityExceptionHand
                 String errorMessage = error.getDefaultMessage();
                 errors.put(fieldName, errorMessage);
             });
+            log.info("Validation not passed");
             return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 

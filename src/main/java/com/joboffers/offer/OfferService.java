@@ -6,6 +6,7 @@ import com.joboffers.model.OfferDto;
 import com.joboffers.offer.exceptions.OfferDuplicateException;
 import com.joboffers.offer.exceptions.OfferNotFoundException;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DuplicateKeyException;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class OfferService {
 
     OfferRepository offerRepository;
