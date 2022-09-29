@@ -8,9 +8,15 @@ import com.joboffers.offer.OfferService;
 import com.joboffers.offer.exception.OfferDuplicateException;
 import com.joboffers.offer.exception.OfferNotFoundException;
 import com.joboffers.offer.service.Samples;
+import com.joboffers.security.repository.UserRepository;
+import com.joboffers.security.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
@@ -28,12 +34,6 @@ import static org.assertj.core.api.BDDAssertions.then;
 @Testcontainers
 class OfferServiceWithContainerTests implements Samples {
 
-    @Autowired
-    OfferRepository offerRepository;
-
-    @Autowired
-    OfferService offerService;
-
     private static final String MONGO_VERSION = "4.4.4";
 
     @Container
@@ -45,16 +45,19 @@ class OfferServiceWithContainerTests implements Samples {
     }
 
     @Test
-    void should_return_list_of_all_offers() {
-        then(offerRepository.findAll()).containsAll(List.of(sampleOffer1(), sampleOffer2()));
+    void should_return_list_of_all_offers(@Autowired OfferService offerService, @Autowired OfferRepository offerRepository) {
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("title").ascending());
+        List<Offer> offersFromRepo = List.of(sampleOffer1());
+        then(offerRepository.findAll(pageable)).containsExactlyInAnyOrderElementsOf(new PageImpl<>(offersFromRepo));
+        // System.out.println(offerRepository.findAll(pageable));;
 
-        List<OfferDto> allOffers = offerService.findAll();
+        List<OfferDto> allOffers = offerService.findAll(1, "name", "asc");
 
-        assertThat(allOffers).containsAll(List.of(sampleOfferDto1(), sampleOfferDto2()));
+        assertThat(allOffers).containsAll(List.of(sampleOfferDto1()));
     }
 
     @Test
-    void should_return_correct_offer() {
+    void should_return_correct_offer(@Autowired OfferService offerService, @Autowired OfferRepository offerRepository) {
         then(offerRepository.findById("63223dcb1a420777c05ffd79")).isPresent();
 
         OfferDto offerById = offerService.findById("63223dcb1a420777c05ffd79");
@@ -63,7 +66,7 @@ class OfferServiceWithContainerTests implements Samples {
     }
 
     @Test
-    void should_throw_offer_not_found_exception() {
+    void should_throw_offer_not_found_exception(@Autowired OfferService offerService, @Autowired OfferRepository offerRepository) {
         then(offerRepository.findById("wrong_id")).isNotPresent();
 
         assertThatThrownBy(() -> {
@@ -73,7 +76,7 @@ class OfferServiceWithContainerTests implements Samples {
     }
 
     @Test
-    void should_correctly_add_offer_to_db() throws UnsupportedEncodingException {
+    void should_correctly_add_offer_to_db(@Autowired OfferService offerService, @Autowired OfferRepository offerRepository) throws UnsupportedEncodingException {
         OfferDto offerToAdd = sampleOfferDto3();
         String urlOfOffer = offerToAdd.getOfferUrl();
         then(offerRepository.existsByOfferUrl(urlOfOffer)).isFalse();
@@ -85,7 +88,7 @@ class OfferServiceWithContainerTests implements Samples {
     }
 
     @Test
-    void should_not_add_offer_when_url_is_a_duplicate() {
+    void should_not_add_offer_when_url_is_a_duplicate(@Autowired OfferService offerService, @Autowired OfferRepository offerRepository) {
         OfferDto offerToAdd = sampleOfferDto1();
         String urlOfOffer = offerToAdd.getOfferUrl();
         then(offerRepository.existsByOfferUrl(urlOfOffer)).isTrue();
@@ -97,7 +100,7 @@ class OfferServiceWithContainerTests implements Samples {
     }
 
     @Test
-    void should_add_list_of_two_offers() {
+    void should_add_list_of_two_offers(@Autowired OfferService offerService, @Autowired OfferRepository offerRepository) {
         List<OfferDto> offersToAdd = List.of(sampleOfferDto4(), sampleOfferDto5());
         OfferListAssert.assertThatOffersDoesNotExistInDb(offersToAdd, offerRepository);
 
@@ -107,7 +110,7 @@ class OfferServiceWithContainerTests implements Samples {
     }
 
     @Test
-    void should_add_only_one_offer_after_list_of_offers_is_filtered_of_duplicates() {
+    void should_add_only_one_offer_after_list_of_offers_is_filtered_of_duplicates(@Autowired OfferService offerService, @Autowired OfferRepository offerRepository) {
         List<OfferDto> offersToAddWithOneDuplicate = List.of(sampleOfferDto1(), sampleOfferDto6());
         String urlOfNonDuplicateOffer = sampleOfferDto6().getOfferUrl();
         String urlOfDuplicateOffer = sampleOfferDto1().getOfferUrl();

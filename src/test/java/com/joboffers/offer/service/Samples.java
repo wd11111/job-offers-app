@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface Samples {
 
-    default Offer sampleOffer1() {
+    default Offer   sampleOffer1() {
         return new Offer("63223dcb1a420777c05ffd79", "Remote Junior Java Developer",
                 "Tutlo sp zoo", "8 000 - 12 000 PLN",
                 "https://nofluffjobs.com/pl/job/remote-junior-java-developer-tutlo-yywmpzo0");
@@ -137,5 +137,9 @@ public interface Samples {
 
     default String anyId() {
         return ArgumentMatchers.anyString();
+    }
+
+    default String PagedListOfTwoOffers() {
+        return "{\"content\":[{\"title\":\"Remote Junior Java Developer\",\"company\":\"Tutlo sp zoo\",\"salary\":\"8 000 - 12 000 PLN\",\"offerUrl\":\"https://nofluffjobs.com/pl/job/remote-junior-java-developer-tutlo-yywmpzo0\"},{\"title\":\"Junior Salesforce/Fullstack Developer\",\"company\":\"Youdigital Sp. z o.o.\",\"salary\":\"4 500 - 8 500 PLN\",\"offerUrl\":\"https://nofluffjobs.com/pl/job/junior-salesforce-fullstack-developer-youdigital-lodz-jzt8qjvv\"}],\"pageable\":\"INSTANCE\",\"totalPages\":1,\"totalElements\":2,\"last\":true,\"size\":2,\"number\":0,\"sort\":{\"empty\":true,\"sorted\":false,\"unsorted\":true},\"numberOfElements\":2,\"first\":true,\"empty\":false}";
     }
 }

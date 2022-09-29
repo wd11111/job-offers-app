@@ -14,6 +14,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 import java.util.Optional;
@@ -37,9 +41,10 @@ public class OfferServiceUnitTests implements Samples {
     void should_return_list_of_three_dto_offers() {
         List<OfferDto> expectedOffers = List.of(sampleOfferDto1(), sampleOfferDto2(), sampleOfferDto3());
         List<Offer> offersFromRepo = List.of(sampleOffer1(), sampleOffer2(), sampleOffer3());
-        when(offerRepository.findAll()).thenReturn(offersFromRepo);
+        Pageable pageable = PageRequest.of(0, 5, Sort.by("title").ascending());
+        when(offerRepository.findAll(pageable)).thenReturn(new PageImpl<>(offersFromRepo));
 
-        List<OfferDto> offerList = offerService.findAll();
+        List<OfferDto> offerList = offerService.findAll(1, "title", "asc");
 
         assertThat(offerList).containsAll(expectedOffers);
     }

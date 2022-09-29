@@ -7,12 +7,13 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class OfferDto {
+public class OfferDto implements Serializable {
 
     @NotNull(message = "can not be null")
     @NotBlank(message = "can not be empty")

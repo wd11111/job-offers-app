@@ -1,10 +1,10 @@
 package com.joboffers.offer.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.joboffers.exceptionhandler.OfferControllerExceptionHandler;
 import com.joboffers.offer.OfferController;
 import com.joboffers.offer.OfferRepository;
 import com.joboffers.offer.OfferService;
-import com.joboffers.exceptionhandler.OfferControllerExceptionHandler;
 import com.joboffers.offer.exception.OfferNotFoundException;
 import com.joboffers.offer.service.Samples;
 import org.junit.jupiter.api.Test;
@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -38,13 +39,14 @@ class OfferControllerTest implements Samples {
     @Test
     void should_return_ok_status_when_get_for_offers() throws Exception {
         String expectedResponseBody = objectMapper.writeValueAsString(sampleListOfOfferDto());
-        when(offerService.findAll()).thenReturn(sampleListOfOfferDto());
+
+        when(offerService.findAll(1, "title", "asc")).thenReturn(sampleListOfOfferDto());
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/offers"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
 
-        ResponseBodyAssertMvc.then(mvcResult).hasTheSameBodyAs(expectedResponseBody);
+        ResponseBodyAssertMvc.then(mvcResult).containsBodyOf(expectedResponseBody);
     }
 
     @Test

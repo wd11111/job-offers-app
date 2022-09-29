@@ -20,4 +20,9 @@ public class ResponseBodyAssertMvc {
         assertThat(mvcResult.getResponse().getContentAsString()).isEqualTo(expectedBody);
         return this;
     }
+
+    ResponseBodyAssertMvc containsBodyOf(String expectedBody) throws UnsupportedEncodingException {
+        assertThat(mvcResult.getResponse().getContentAsString()).contains(expectedBody);
+        return this;
+    }
 }

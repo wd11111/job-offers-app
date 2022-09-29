@@ -10,6 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,8 +26,10 @@ public class OfferService {
     private final OfferRepository offerRepository;
 
     @Cacheable(value = "offers")
-    public List<OfferDto> findAll() {
-        List<OfferDto> offerDtoList = offerRepository.findAll().stream()
+    public List<OfferDto> findAll(int page, String field, String sortDir) {
+        Pageable pageable = PageRequest.of(page - 1, 5,
+                sortDir.equalsIgnoreCase("asc") ? Sort.by(field).ascending() : Sort.by(field).descending());
+        List<OfferDto> offerDtoList = offerRepository.findAll(pageable).stream()
                 .map(OfferMapper::mapToOfferDto)
                 .collect(Collectors.toList());
         return offerDtoList;
