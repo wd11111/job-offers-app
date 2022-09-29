@@ -1,5 +1,6 @@
 package com.joboffers.offer.exception;
 
+import com.joboffers.exceptionhandler.OfferControllerExceptionHandler;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
 

@@ -47,5 +47,4 @@ public class SwaggerConfig {
     private SecurityScheme createSchema() {
         return new ApiKey("apiKey", "Authorization", "header");
     }
-
 }

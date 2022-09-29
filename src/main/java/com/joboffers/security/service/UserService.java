@@ -31,7 +31,7 @@ public class UserService implements UserDetailsService {
                     log.info("User not found");
                     throw new UsernameNotFoundException("User not found");
                 });
-        return (userToLoad(user));
+        return new User(user.getUsername(), user.getPassword(), Collections.emptyList());
     }
 
     public void register(RegisterCredentials registerCredentials) {
@@ -42,9 +42,5 @@ public class UserService implements UserDetailsService {
         } catch (DuplicateKeyException e) {
             throw new UserDuplicateException(user.getUsername());
         }
-    }
-
-    private User userToLoad(AppUser user) {
-        return new User(user.getUsername(), user.getPassword(), Collections.emptyList());
     }
 }

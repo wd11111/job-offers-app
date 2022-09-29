@@ -1,6 +1,5 @@
 package com.joboffers.model;
 
-import com.joboffers.validation.FieldsValueMatch;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -1,7 +1,7 @@
-package com.joboffers.security.exception;
+package com.joboffers.exceptionhandler;
 
-import com.joboffers.offer.exception.OfferErrorResponse;
 import com.joboffers.security.controller.UserController;
+import com.joboffers.security.exception.UserDuplicateException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -20,10 +20,10 @@ import java.util.List;
 public class UserControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(UserDuplicateException.class)
-    public ResponseEntity<OfferErrorResponse> handleUserDuplicateException(UserDuplicateException e) {
-        OfferErrorResponse offerErrorResponse = new OfferErrorResponse(e.getMessage(), HttpStatus.CONFLICT);
+    public ResponseEntity<ErrorResponse> handleUserDuplicateException(UserDuplicateException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), HttpStatus.CONFLICT);
         log.info(e.getMessage());
-        return new ResponseEntity<>(offerErrorResponse, HttpStatus.CONFLICT);
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
 
     @Override

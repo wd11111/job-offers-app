@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.joboffers.offer.OfferController;
 import com.joboffers.offer.OfferRepository;
 import com.joboffers.offer.OfferService;
-import com.joboffers.offer.exception.OfferControllerExceptionHandler;
+import com.joboffers.exceptionhandler.OfferControllerExceptionHandler;
 import com.joboffers.offer.exception.OfferNotFoundException;
 import com.joboffers.offer.service.Samples;
 import org.junit.jupiter.api.Test;

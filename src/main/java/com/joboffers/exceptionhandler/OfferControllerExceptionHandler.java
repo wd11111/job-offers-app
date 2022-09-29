@@ -1,6 +1,9 @@
-package com.joboffers.offer.exception;
+package com.joboffers.exceptionhandler;
 
 import com.joboffers.offer.OfferController;
+import com.joboffers.offer.exception.OfferDuplicateException;
+import com.joboffers.offer.exception.OfferNotFoundException;
+import com.joboffers.offer.exception.WrongCredentials;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -20,17 +23,17 @@ import java.util.Map;
 public class OfferControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(OfferNotFoundException.class)
-    public ResponseEntity<OfferErrorResponse> handleOfferNotFoundException(OfferNotFoundException e) {
-        OfferErrorResponse offerErrorResponse = new OfferErrorResponse(e.getMessage(), HttpStatus.NOT_FOUND);
+    public ResponseEntity<ErrorResponse> handleOfferNotFoundException(OfferNotFoundException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), HttpStatus.NOT_FOUND);
         log.info(e.getMessage());
-        return new ResponseEntity<>(offerErrorResponse, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(OfferDuplicateException.class)
-    public ResponseEntity<OfferErrorResponse> handleOfferDuplicateException(OfferDuplicateException e) {
-        OfferErrorResponse offerErrorResponse = new OfferErrorResponse(e.getMessage(), HttpStatus.CONFLICT);
+    public ResponseEntity<ErrorResponse> handleOfferDuplicateException(OfferDuplicateException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), HttpStatus.CONFLICT);
         log.info(e.getMessage());
-        return new ResponseEntity<>(offerErrorResponse, HttpStatus.CONFLICT);
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
 
     @Override
@@ -46,9 +49,9 @@ public class OfferControllerExceptionHandler extends ResponseEntityExceptionHand
     }
 
     @ExceptionHandler(WrongCredentials.class)
-    public ResponseEntity<OfferErrorResponse> handleWrongCredentials(WrongCredentials e) {
-        OfferErrorResponse offerErrorResponse = new OfferErrorResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ErrorResponse> handleWrongCredentials(WrongCredentials e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
         log.info(e.getMessage());
-        return new ResponseEntity<>(offerErrorResponse, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 }

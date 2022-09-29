@@ -1,4 +1,4 @@
-package com.joboffers.security.exception;
+package com.joboffers.exceptionhandler;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -6,8 +6,9 @@ import org.springframework.http.HttpStatus;
 
 @AllArgsConstructor
 @Data
-public class UserErrorResponse {
+public class ErrorResponse {
 
     private String message;
     private HttpStatus httpStatus;
+
 }
