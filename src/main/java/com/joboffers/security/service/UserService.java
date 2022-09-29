@@ -28,8 +28,7 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         AppUser user = userRepository.findByUsername(username)
                 .orElseThrow(() -> {
-                    log.info("User not found");
-                    throw new UsernameNotFoundException("User not found");
+                    throw new UsernameNotFoundException("UNAUTHORIZED");
                 });
         return new User(user.getUsername(), user.getPassword(), Collections.emptyList());
     }
