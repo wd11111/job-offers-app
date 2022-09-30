@@ -1,7 +1,7 @@
 package com.joboffers.infrastructure.offer.client;
 
 import com.joboffers.model.OfferDto;
-import com.joboffers.offer.service.Samples;
+import com.joboffers.offer.Samples;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 

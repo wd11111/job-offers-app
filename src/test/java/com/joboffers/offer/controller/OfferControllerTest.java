@@ -6,7 +6,7 @@ import com.joboffers.offer.OfferController;
 import com.joboffers.offer.OfferRepository;
 import com.joboffers.offer.OfferService;
 import com.joboffers.offer.exception.OfferNotFoundException;
-import com.joboffers.offer.service.Samples;
+import com.joboffers.offer.Samples;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import static com.joboffers.offer.controller.ResponseBodyAssertMvc.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -46,7 +47,7 @@ class OfferControllerTest implements Samples {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
 
-        ResponseBodyAssertMvc.then(mvcResult).containsBodyOf(expectedResponseBody);
+        then(mvcResult).containsBodyOf(expectedResponseBody);
     }
 
     @Test
@@ -58,7 +59,7 @@ class OfferControllerTest implements Samples {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
 
-        ResponseBodyAssertMvc.then(mvcResult).hasTheSameBodyAs(expectedResponseBody);
+        then(mvcResult).hasTheSameBodyAs(expectedResponseBody);
     }
 
     @Test
@@ -81,7 +82,7 @@ class OfferControllerTest implements Samples {
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andReturn();
 
-        ResponseBodyAssertMvc.then(mvcResult).hasTheSameBodyAs(requestBody);
+        then(mvcResult).hasTheSameBodyAs(requestBody);
     }
 
     @Test

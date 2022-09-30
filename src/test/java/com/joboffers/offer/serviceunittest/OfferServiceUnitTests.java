@@ -1,9 +1,10 @@
-package com.joboffers.offer.service;
+package com.joboffers.offer.serviceunittest;
 
 import com.joboffers.model.Offer;
 import com.joboffers.model.OfferDto;
 import com.joboffers.offer.OfferRepository;
 import com.joboffers.offer.OfferService;
+import com.joboffers.offer.Samples;
 import com.joboffers.offer.exception.OfferDuplicateException;
 import com.joboffers.offer.exception.OfferNotFoundException;
 import org.junit.jupiter.api.Test;

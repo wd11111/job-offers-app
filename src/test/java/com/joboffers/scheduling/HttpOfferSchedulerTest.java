@@ -2,7 +2,6 @@ package com.joboffers.scheduling;
 
 import com.joboffers.infrastructure.RemoteOfferClient;
 import com.joboffers.offer.OfferService;
-import com.joboffers.scheduling.HttpOfferScheduler;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;

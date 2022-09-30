@@ -2,13 +2,13 @@ package com.joboffers.offer.containertest;
 
 import com.joboffers.model.Offer;
 import com.joboffers.model.OfferDto;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.io.UnsupportedEncodingException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class OfferBodyAssert {
 
     private final Offer offer;

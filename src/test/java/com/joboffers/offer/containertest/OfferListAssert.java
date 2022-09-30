@@ -1,6 +1,5 @@
 package com.joboffers.offer.containertest;
 
-import com.joboffers.model.Offer;
 import com.joboffers.model.OfferDto;
 import com.joboffers.offer.OfferRepository;
 import lombok.AllArgsConstructor;

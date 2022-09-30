@@ -12,14 +12,11 @@ class OfferControllerExceptionHandlerTest implements SampleControllerExceptionRe
 
     @Test
     void should_return_correct_response_when_offer_not_found() {
-        //given
         OfferNotFoundException offerNotFoundException = sampleOfferNotFoundException();
         ResponseEntity expectedOfferErrorResponse = sampleOfferNotFoundExceptionResponse();
 
-        // when
         ResponseEntity offerErrorResponse = offerControllerExceptionHandler.handleOfferNotFoundException(offerNotFoundException);
 
-        // then
         assertThat(offerErrorResponse).isEqualTo(expectedOfferErrorResponse);
     }
 }
