@@ -4,7 +4,7 @@ import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.joboffers.config.OfferHttpClientTestOfferClientConfig;
 import com.joboffers.infrastructure.RemoteOfferClient;
-import com.joboffers.model.OfferDto;
+import com.joboffers.offer.Samples;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,7 @@ import java.util.Arrays;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
 import static org.assertj.core.api.BDDAssertions.then;
 
-class OfferHttpClientIntegrationTest implements SampleOfferDto {
+class OfferHttpClientIntegrationTest implements Samples {
 
     int port = SocketUtils.findAvailableTcpPort();
     WireMockServer wireMockServer;
@@ -44,43 +44,22 @@ class OfferHttpClientIntegrationTest implements SampleOfferDto {
                         .withBody(bodyWithTwoOffersJson())));
 
         then(remoteOfferClient.getOffers())
-                .containsExactlyInAnyOrderElementsOf(Arrays.asList(cybersourceSoftwareEngineer(), cdqJuniorDevOpsEngineer()));
+                .containsExactlyInAnyOrderElementsOf(Arrays.asList(sampleOfferDto1(), sampleOfferDto2()));
     }
 
     private String bodyWithTwoOffersJson() {
         return "[{\n" +
-                "    \"title\": \"Software Engineer - Mobile (m/f/d)\",\n" +
-                "    \"company\": \"Cybersource\",\n" +
-                "    \"salary\": \"4k - 8k PLN\",\n" +
-                "    \"offerUrl\": \"https://nofluffjobs.com/pl/job/software-engineer-mobile-m-f-d-cybersource-poznan-entavdpn\"\n" +
+                "    \"title\": \"Remote Junior Java Developer\",\n" +
+                "    \"company\": \"Tutlo sp zoo\",\n" +
+                "    \"salary\": \"8 000 - 12 000 PLN\",\n" +
+                "    \"offerUrl\": \"https://nofluffjobs.com/pl/job/remote-junior-java-developer-tutlo-yywmpzo0\"\n" +
                 "  },\n" +
                 "  {\n" +
-                "    \"title\": \"Junior DevOps Engineer\",\n" +
-                "    \"company\": \"CDQ Poland\",\n" +
-                "    \"salary\": \"8k - 14k PLN\",\n" +
-                "    \"offerUrl\": \"https://nofluffjobs.com/pl/job/junior-devops-engineer-cdq-poland-wroclaw-gnymtxqd\"\n" +
+                "    \"title\": \"Junior Salesforce/Fullstack Developer\",\n" +
+                "    \"company\": \"Youdigital Sp. z o.o.\",\n" +
+                "    \"salary\": \"4 500 - 8 500 PLN\",\n" +
+                "    \"offerUrl\": \"https://nofluffjobs.com/pl/job/junior-salesforce-fullstack-developer-youdigital-lodz-jzt8qjvv\"\n" +
                 "  }]";
-    }
-
-    private String bodyWithOneOfferJson() {
-        return "[{\n" +
-                "    \"title\": \"Software Engineer - Mobile (m/f/d)\",\n" +
-                "    \"company\": \"Cybersource\",\n" +
-                "    \"salary\": \"4k - 8k PLN\",\n" +
-                "    \"url\": \"https://nofluffjobs.com/pl/job/software-engineer-mobile-m-f-d-cybersource-poznan-entavdpn\"\n" +
-                "  }]";
-    }
-
-    private String bodyWithZeroOffersJson() {
-        return "[]";
-    }
-
-    private OfferDto cybersourceSoftwareEngineer() {
-        return offerWithParameters("Software Engineer - Mobile (m/f/d)", "Cybersource", "4k - 8k PLN", "https://nofluffjobs.com/pl/job/software-engineer-mobile-m-f-d-cybersource-poznan-entavdpn");
-    }
-
-    private OfferDto cdqJuniorDevOpsEngineer() {
-        return offerWithParameters("Junior DevOps Engineer", "CDQ Poland", "8k - 14k PLN", "https://nofluffjobs.com/pl/job/junior-devops-engineer-cdq-poland-wroclaw-gnymtxqd");
     }
 }
 

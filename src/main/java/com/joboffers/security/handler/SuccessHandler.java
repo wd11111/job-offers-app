@@ -20,7 +20,7 @@ public class SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final long expirationTime;
     private final String secret;
 
-    public SuccessHandler(@Value("${jwt.expirationTime}") long expirationTime, @Value("${jwt.secret}") String secret) {
+    public SuccessHandler(@Value("${jwt.expirationTime:36000000}") long expirationTime, @Value("${jwt.secret:secretkey123}") String secret) {
         this.expirationTime = expirationTime;
         this.secret = secret;
     }

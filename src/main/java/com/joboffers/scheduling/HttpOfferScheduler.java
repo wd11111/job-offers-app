@@ -1,7 +1,6 @@
 package com.joboffers.scheduling;
 
 import com.joboffers.infrastructure.RemoteOfferClient;
-import com.joboffers.model.Offer;
 import com.joboffers.model.OfferDto;
 import com.joboffers.offer.OfferService;
 import lombok.AllArgsConstructor;
@@ -19,10 +18,10 @@ public class HttpOfferScheduler {
     private final OfferService offerService;
     private final RemoteOfferClient offerClient;
 
-    @Scheduled(fixedDelayString = "${delay.hours}")
-    void saveOffersFromHttpService() {
+    @Scheduled(fixedDelayString = "${delay.hours:PT3H}")
+    public void saveOffersFromHttpService() {
         final List<OfferDto> offersToDb = offerClient.getOffers();
-        final List<Offer> savedOffers = offerService.saveAllAfterFiltered(offersToDb);
+        final List<OfferDto> savedOffers = offerService.saveAllAfterFiltered(offersToDb);
         int amountOfSavedOffers = savedOffers.size();
         log.info(String.format("Added %d offers", amountOfSavedOffers));
     }

@@ -1,9 +1,11 @@
 package com.joboffers.security.controller;
 
-import com.joboffers.security.model.UserDto;
+import com.joboffers.security.model.LoginCredentials;
+import com.joboffers.security.model.RegisterCredentials;
 import com.joboffers.security.service.UserService;
-import lombok.AllArgsConstructor;
-import org.springframework.validation.annotation.Validated;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,14 +14,21 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@AllArgsConstructor
-@RequestMapping("/logowanie")
+@RequestMapping
+@RequiredArgsConstructor
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
 
-    @PostMapping
-    public void login(@RequestBody UserDto userDto) {
-        userService.loadUserByUsername(userDto.getUsername());
+    @PostMapping("/login")
+    public ResponseEntity<Void> login(@RequestBody LoginCredentials loginCredentials) {
+        userService.loadUserByUsername(loginCredentials.getUsername());
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<Void> register(@RequestBody @Valid RegisterCredentials registerCredentials) {
+        userService.register(registerCredentials);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

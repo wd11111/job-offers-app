@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Duration;
@@ -22,8 +20,8 @@ public class OfferClientConfig {
     }
 
     @Bean
-    RestTemplate restTemplate(@Value("${offer.http.client.config.connectionTimeout}") long connectionTimeout,
-                                        @Value("${offer.http.client.config.readTimeout}") long readTimeout,
+    RestTemplate restTemplate(@Value("${offer.http.client.config.connectionTimeout:1000}") long connectionTimeout,
+                                        @Value("${offer.http.client.config.readTimeout:1000}") long readTimeout,
                                         RestTemplateResponseErrorHandler errorHandler) {
         return new RestTemplateBuilder()
                 .errorHandler(errorHandler)
@@ -34,8 +32,8 @@ public class OfferClientConfig {
 
     @Bean
     RemoteOfferClient offerClient(RestTemplate restTemplate,
-                                            @Value("${offer.http.client.config.uri}") String uri,
-                                            @Value("${offer.http.client.config.port}") int port) {
+                                            @Value("${offer.http.client.config.uri:http://example.com}") String uri,
+                                            @Value("${offer.http.client.config.port:5057}") int port) {
         return new OfferHttpClient(restTemplate, uri, port);
     }
 

@@ -1,6 +1,7 @@
 package com.joboffers.infrastructure.offer.client;
 
 import com.joboffers.model.OfferDto;
+import com.joboffers.offer.Samples;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -8,10 +9,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public interface SampleOfferResponse extends SampleOfferDto{
+public interface SampleOfferResponse extends Samples {
 
     default ResponseEntity<List<OfferDto>> responseWithOneOffer() {
-        return new ResponseEntity<>(Collections.singletonList(emptyOffer()), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(Collections.singletonList(sampleOfferDto1()), HttpStatus.ACCEPTED);
     }
 
     default ResponseEntity<List<OfferDto>> responseWithNoOffers() {
@@ -21,9 +22,6 @@ public interface SampleOfferResponse extends SampleOfferDto{
     default ResponseEntity<List<OfferDto>> responseWithOffers(OfferDto... offerDtos) {
         return new ResponseEntity<>(Arrays.asList(offerDtos), HttpStatus.ACCEPTED);
     }
-
-
-
 
 
 }
