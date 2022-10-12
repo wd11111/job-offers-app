@@ -2,7 +2,7 @@ package com.joboffers.infrastructure.offer.client;
 
 import com.joboffers.infrastructure.RemoteOfferClient;
 import com.joboffers.model.OfferDto;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -10,7 +10,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -18,7 +17,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class OfferHttpClient implements RemoteOfferClient {
 
     private final RestTemplate restTemplate;

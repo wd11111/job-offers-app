@@ -2,7 +2,7 @@ package com.joboffers.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.joboffers.security.model.LoginCredentials;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -15,7 +15,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final ObjectMapper objectMapper;
 
@@ -34,7 +34,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
             setDetails(request, token);
             return this.getAuthenticationManager().authenticate(token);
         } catch (IOException e) {
-            log.info("Error logging: wrong logging credentials");
+            log.error("Error logging: wrong logging credentials");
             response.setStatus(401);
             return null;
         }

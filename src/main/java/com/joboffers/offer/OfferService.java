@@ -6,7 +6,6 @@ import com.joboffers.model.OfferDto;
 import com.joboffers.offer.exception.OfferDuplicateException;
 import com.joboffers.offer.exception.OfferNotFoundException;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DuplicateKeyException;
@@ -20,7 +19,6 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class OfferService {
 
     private final OfferRepository offerRepository;
@@ -39,10 +37,6 @@ public class OfferService {
         return offerRepository.findById(id)
                 .map(OfferMapper::mapToOfferDto)
                 .orElseThrow(() -> new OfferNotFoundException(id));
-    }
-
-    public List<Offer> saveAll(List<Offer> offers) {
-        return offerRepository.saveAll(offers);
     }
 
     @CacheEvict(value = "offers", allEntries = true)

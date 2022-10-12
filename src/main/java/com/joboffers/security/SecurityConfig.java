@@ -6,6 +6,7 @@ import com.joboffers.security.filter.JwtAuthorizationFilter;
 import com.joboffers.security.handler.FailureHandler;
 import com.joboffers.security.handler.SuccessHandler;
 import com.joboffers.security.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -18,28 +19,17 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Value("${jwt.secret:secretkey123}")
+    private String secretKey;
     private final UserService userService;
     private final SuccessHandler successHandler;
     private final PasswordEncoder passwordEncoder;
     private final ObjectMapper objectMapper;
     private final FailureHandler failureHandler;
-    private final String secret;
     private final AuthenticationEntryPoint authenticationEntryPoint;
-
-    public SecurityConfig(UserService userService, SuccessHandler successHandler, PasswordEncoder passwordEncoder,
-                          ObjectMapper objectMapper, FailureHandler failureHandler,
-                          @Value("${jwt.secret:secretkey123}") String secret,
-                          AuthenticationEntryPoint authenticationEntryPoint) {
-        this.userService = userService;
-        this.successHandler = successHandler;
-        this.passwordEncoder = passwordEncoder;
-        this.objectMapper = objectMapper;
-        this.failureHandler = failureHandler;
-        this.secret = secret;
-        this.authenticationEntryPoint = authenticationEntryPoint;
-    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -65,7 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
                 .and()
                 .addFilter(filter())
-                .addFilter(new JwtAuthorizationFilter(authenticationManager(), userService, secret));
+                .addFilter(new JwtAuthorizationFilter(authenticationManager(), userService, secretKey));
     }
 
     public AuthenticationFilter filter() throws Exception {
