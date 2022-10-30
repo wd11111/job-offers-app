@@ -18,5 +18,4 @@ public class RegisterCredentials {
     private String userName;
     private String password;
     private String confirmPassword;
-
 }

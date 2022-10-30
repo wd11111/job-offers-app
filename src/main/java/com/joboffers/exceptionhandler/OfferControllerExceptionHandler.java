@@ -3,7 +3,6 @@ package com.joboffers.exceptionhandler;
 import com.joboffers.offer.OfferController;
 import com.joboffers.offer.exception.OfferDuplicateException;
 import com.joboffers.offer.exception.OfferNotFoundException;
-import com.joboffers.offer.exception.WrongCredentials;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -46,12 +45,5 @@ public class OfferControllerExceptionHandler extends ResponseEntityExceptionHand
         });
         log.error("Validation not passed");
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(WrongCredentials.class)
-    public ResponseEntity<ErrorResponse> handleWrongCredentials(WrongCredentials e) {
-        ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
-        log.error(e.getMessage());
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 }

@@ -22,7 +22,11 @@ public class HttpOfferScheduler {
     public void saveOffersFromHttpService() {
         final List<OfferDto> offersToDb = offerClient.getOffers();
         final List<OfferDto> savedOffers = offerService.saveAllAfterFiltered(offersToDb);
+        logAmountOfSavedOffers(savedOffers);
+    }
+
+    private void logAmountOfSavedOffers(List<OfferDto> savedOffers) {
         int amountOfSavedOffers = savedOffers.size();
-        log.info(String.format("Added %d offers", amountOfSavedOffers));
+        log.info("Added {} offers to database", amountOfSavedOffers);
     }
 }

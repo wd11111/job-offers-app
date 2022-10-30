@@ -51,7 +51,7 @@ public class OfferServiceUnitTests implements Samples {
     }
 
     @ParameterizedTest(name = "expected offer dto {0}, offer from repo {1}, given id {2}")
-    @ArgumentsSource(ProvideArgumentsOfOffers.class)
+    @ArgumentsSource(ArgumentsOfOffersProvider.class)
     void should_return_offer_dto_by_id(OfferDto expectedOffer, Offer offerFromRepo, String id) {
         when(offerRepository.findById(id)).thenReturn(Optional.of(offerFromRepo));
 
@@ -99,13 +99,13 @@ public class OfferServiceUnitTests implements Samples {
 
     @Test
     void should_filter_duplicated_offers_correctly_and_save() {
-        List<OfferDto> offersWithDuplicate = List.of(sampleOfferDto1(), sampleOfferDto2(), sampleOfferDto3());
+        List<OfferDto> listOfThreeOffersWithOneDuplicate = List.of(sampleOfferDto1(), sampleOfferDto2(), sampleOfferDto3());
 
         when(offerRepository.existsByOfferUrl("https://nofluffjobs.com/pl/job/remote-junior-java-developer-tutlo-yywmpzo0")).thenReturn(true);
         when(offerRepository.saveAll(anyIterable()))
                 .thenAnswer(invocation -> invocation.getArgument(0));
 
-        List<OfferDto> offers = offerService.saveAllAfterFiltered(offersWithDuplicate);
+        List<OfferDto> offers = offerService.saveAllAfterFiltered(listOfThreeOffersWithOneDuplicate);
 
         assertThat(offers.size()).isEqualTo(2);
     }
