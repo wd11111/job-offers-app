@@ -25,12 +25,10 @@ public class OfferService {
 
     @Cacheable(value = "offers")
     public List<OfferDto> findAll(int page, String field, String sortDir) {
-        Pageable pageable = PageRequest.of(page - 1, 5,
-                sortDir.equalsIgnoreCase("asc") ? Sort.by(field).ascending() : Sort.by(field).descending());
-        List<OfferDto> offerDtoList = offerRepository.findAll(pageable).stream()
+        Pageable pageable = getPageable(page, field, sortDir);
+        return offerRepository.findAll(pageable).stream()
                 .map(OfferMapper::mapToOfferDto)
                 .collect(Collectors.toList());
-        return offerDtoList;
     }
 
     public OfferDto findById(String id) {
@@ -69,4 +67,10 @@ public class OfferService {
                 .map(OfferMapper::mapToOffer)
                 .collect(Collectors.toList());
     }
+
+    private Pageable getPageable(int page, String field, String sortDir) {
+        return PageRequest.of(page - 1, 5,
+                sortDir.equalsIgnoreCase("asc") ? Sort.by(field).ascending() : Sort.by(field).descending());
+    }
+
 }
