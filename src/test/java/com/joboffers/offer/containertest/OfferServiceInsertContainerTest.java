@@ -17,14 +17,14 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.io.UnsupportedEncodingException;
 
+import static com.joboffers.offer.containertest.Config.DB_PORT;
+import static com.joboffers.offer.containertest.Config.DOCKER_IMAGE_NAME;
 import static org.assertj.core.api.BDDAssertions.then;
 
 @SpringBootTest(classes = OfferServiceInsertContainerTest.TestConfig.class)
 @ActiveProfiles("container")
 @Testcontainers
 public class OfferServiceInsertContainerTest implements Samples {
-
-    private static final String MONGO_VERSION = "4.4.4";
 
     @Autowired
     OfferService offerService;
@@ -33,11 +33,11 @@ public class OfferServiceInsertContainerTest implements Samples {
     OfferRepository offerRepository;
 
     @Container
-    private static final MongoDBContainer DB_CONTAINER = new MongoDBContainer("mongo:" + MONGO_VERSION);
+    private static final MongoDBContainer DB_CONTAINER = new MongoDBContainer(DOCKER_IMAGE_NAME);
 
     static {
         DB_CONTAINER.start();
-        System.setProperty("DB_PORT", String.valueOf(DB_CONTAINER.getFirstMappedPort()));
+        System.setProperty(DB_PORT, String.valueOf(DB_CONTAINER.getFirstMappedPort()));
     }
 
     @Test

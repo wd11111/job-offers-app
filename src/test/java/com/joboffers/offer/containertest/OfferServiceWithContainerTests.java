@@ -5,9 +5,9 @@ import com.joboffers.model.Offer;
 import com.joboffers.model.OfferDto;
 import com.joboffers.offer.OfferRepository;
 import com.joboffers.offer.OfferService;
+import com.joboffers.offer.Samples;
 import com.joboffers.offer.exception.OfferDuplicateException;
 import com.joboffers.offer.exception.OfferNotFoundException;
-import com.joboffers.offer.Samples;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,6 +23,8 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.List;
 
+import static com.joboffers.offer.containertest.Config.DB_PORT;
+import static com.joboffers.offer.containertest.Config.DOCKER_IMAGE_NAME;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.BDDAssertions.then;
@@ -32,20 +34,20 @@ import static org.assertj.core.api.BDDAssertions.then;
 @Testcontainers
 class OfferServiceWithContainerTests implements Samples {
 
+    private static final String WRONG_ID = "wrong_id";
+
     @Autowired
     OfferService offerService;
 
     @Autowired
     OfferRepository offerRepository;
 
-    private static final String MONGO_VERSION = "4.4.4";
-
     @Container
-    private static final MongoDBContainer DB_CONTAINER = new MongoDBContainer("mongo:" + MONGO_VERSION);
+    private static final MongoDBContainer DB_CONTAINER = new MongoDBContainer(DOCKER_IMAGE_NAME);
 
     static {
         DB_CONTAINER.start();
-        System.setProperty("DB_PORT", String.valueOf(DB_CONTAINER.getFirstMappedPort()));
+        System.setProperty(DB_PORT, String.valueOf(DB_CONTAINER.getFirstMappedPort()));
     }
 
     @Test
@@ -71,11 +73,9 @@ class OfferServiceWithContainerTests implements Samples {
 
     @Test
     void should_throw_offer_not_found_exception() {
-        then(offerRepository.findById("wrong_id")).isNotPresent();
+        then(offerRepository.findById(WRONG_ID)).isNotPresent();
 
-        assertThatThrownBy(() -> {
-            offerService.findById("wrong_id");
-        }).isInstanceOf(OfferNotFoundException.class)
+        assertThatThrownBy(() -> offerService.findById(WRONG_ID)).isInstanceOf(OfferNotFoundException.class)
                 .hasMessageContaining(String.format("Offer with id %s not found", "wrong_id"));
     }
 
@@ -85,9 +85,7 @@ class OfferServiceWithContainerTests implements Samples {
         String urlOfOffer = offerToAdd.getOfferUrl();
         then(offerRepository.existsByOfferUrl(urlOfOffer)).isTrue();
 
-        assertThatThrownBy(() -> {
-            offerService.addOffer(offerToAdd);
-        }).isInstanceOf(OfferDuplicateException.class)
+        assertThatThrownBy(() -> offerService.addOffer(offerToAdd)).isInstanceOf(OfferDuplicateException.class)
                 .hasMessageContaining("Offer with this url already exists");
     }
 

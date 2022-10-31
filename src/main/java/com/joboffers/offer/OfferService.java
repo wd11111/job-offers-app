@@ -38,7 +38,7 @@ public class OfferService {
     }
 
     @CacheEvict(value = "offers", allEntries = true)
-    public List<OfferDto> saveAllAfterFiltered(List<OfferDto> offers) {
+    public List<OfferDto> saveAllOffersAfterFiltered(List<OfferDto> offers) {
         List<OfferDto> filteredOffers = filterOffersBeforeSave(offers);
         offerRepository.saveAll(mapToOffers(filteredOffers));
         return filteredOffers;

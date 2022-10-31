@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Slf4j
 @Component
+@Slf4j
 @RequiredArgsConstructor
 public class HttpOfferScheduler {
 
@@ -21,7 +21,7 @@ public class HttpOfferScheduler {
     @Scheduled(fixedDelayString = "${delay.hours:PT3H}")
     public void saveOffersFromHttpService() {
         final List<OfferDto> offersFromClient = offerClient.getOffers();
-        final List<OfferDto> savedOffers = offerService.saveAllAfterFiltered(offersFromClient);
+        final List<OfferDto> savedOffers = offerService.saveAllOffersAfterFiltered(offersFromClient);
         log.info("Added {} offers to database", savedOffers.size());
     }
 }
