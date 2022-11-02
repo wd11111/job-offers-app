@@ -6,9 +6,10 @@ import com.joboffers.security.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.CurrentSecurityContext;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
@@ -29,10 +30,5 @@ public class UserController {
     public ResponseEntity<Void> register(@RequestBody @Valid RegisterCredentials registerCredentials) {
         userService.register(registerCredentials);
         return new ResponseEntity<>(HttpStatus.CREATED);
-    }
-
-    @GetMapping("xd")
-    public Object getyyy(@CurrentSecurityContext(expression = "authentication") Authentication authentication) {
-        return authentication.getDetails();
     }
 }
