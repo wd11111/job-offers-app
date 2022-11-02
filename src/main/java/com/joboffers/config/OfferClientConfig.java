@@ -39,9 +39,4 @@ public class OfferClientConfig {
         return new OfferHttpClient(restTemplate, uri, port);
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
 }

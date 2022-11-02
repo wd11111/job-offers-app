@@ -36,7 +36,7 @@ public class UserService implements UserDetailsService {
 
     public void register(RegisterCredentials registerCredentials) {
         String encodedPassword = passwordEncoder.encode(registerCredentials.getPassword());
-        AppUser user = new AppUser(null, registerCredentials.getUserName(), encodedPassword);
+        AppUser user = new AppUser(null, registerCredentials.getUsername(), encodedPassword);
         try {
             userRepository.save(user);
         } catch (DuplicateKeyException e) {

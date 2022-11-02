@@ -15,7 +15,7 @@ import lombok.Data;
 })
 public class RegisterCredentials {
 
-    private String userName;
+    private String username;
     private String password;
     private String confirmPassword;
 }

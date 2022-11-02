@@ -17,6 +17,7 @@ import java.io.IOException;
 @Slf4j
 @RequiredArgsConstructor
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+
     private final ObjectMapper objectMapper;
 
     @Override
