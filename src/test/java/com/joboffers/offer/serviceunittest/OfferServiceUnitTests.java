@@ -26,9 +26,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.anyIterable;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class OfferServiceUnitTests implements Samples {
@@ -51,7 +49,7 @@ public class OfferServiceUnitTests implements Samples {
     }
 
     @ParameterizedTest(name = "expected offer dto {0}, offer from repo {1}, given id {2}")
-    @ArgumentsSource(ProvideArgumentsOfOffers.class)
+    @ArgumentsSource(ArgumentsOfOffersProvider.class)
     void should_return_offer_dto_by_id(OfferDto expectedOffer, Offer offerFromRepo, String id) {
         when(offerRepository.findById(id)).thenReturn(Optional.of(offerFromRepo));
 
@@ -65,9 +63,7 @@ public class OfferServiceUnitTests implements Samples {
         String sampleId = "63223dcb1a420777c05ffd7c";
         when(offerRepository.findById(sampleId)).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> {
-            offerService.findById(sampleId);
-        }).isInstanceOf(OfferNotFoundException.class)
+        assertThatThrownBy(() -> offerService.findById(sampleId)).isInstanceOf(OfferNotFoundException.class)
                 .hasMessageContaining(String.format("Offer with id %s not found", sampleId));
     }
 
@@ -90,22 +86,20 @@ public class OfferServiceUnitTests implements Samples {
         OfferDto offerToSave = sampleOfferDto1();
         when(offerRepository.save(offerToRepo)).thenThrow(DuplicateKeyException.class);
 
-        assertThatThrownBy(() -> {
-            offerService.addOffer(offerToSave);
-        }).isInstanceOf(OfferDuplicateException.class)
+        assertThatThrownBy(() -> offerService.addOffer(offerToSave)).isInstanceOf(OfferDuplicateException.class)
                 .hasMessageContaining("Offer with this url already exists");
         verify(offerRepository, times(1)).save(offerToRepo);
     }
 
     @Test
     void should_filter_duplicated_offers_correctly_and_save() {
-        List<OfferDto> offersWithDuplicate = List.of(sampleOfferDto1(), sampleOfferDto2(), sampleOfferDto3());
+        List<OfferDto> listOfThreeOffersWithOneDuplicate = List.of(sampleOfferDto1(), sampleOfferDto2(), sampleOfferDto3());
 
         when(offerRepository.existsByOfferUrl("https://nofluffjobs.com/pl/job/remote-junior-java-developer-tutlo-yywmpzo0")).thenReturn(true);
         when(offerRepository.saveAll(anyIterable()))
                 .thenAnswer(invocation -> invocation.getArgument(0));
 
-        List<OfferDto> offers = offerService.saveAllAfterFiltered(offersWithDuplicate);
+        List<OfferDto> offers = offerService.saveAllOffersAfterFiltered(listOfThreeOffersWithOneDuplicate);
 
         assertThat(offers.size()).isEqualTo(2);
     }

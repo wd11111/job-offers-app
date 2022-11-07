@@ -3,7 +3,6 @@ package com.joboffers.exceptionhandler;
 import com.joboffers.offer.OfferController;
 import com.joboffers.offer.exception.OfferDuplicateException;
 import com.joboffers.offer.exception.OfferNotFoundException;
-import com.joboffers.offer.exception.WrongCredentials;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -25,14 +24,14 @@ public class OfferControllerExceptionHandler extends ResponseEntityExceptionHand
     @ExceptionHandler(OfferNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleOfferNotFoundException(OfferNotFoundException e) {
         ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), HttpStatus.NOT_FOUND);
-        log.info(e.getMessage());
+        log.error(e.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(OfferDuplicateException.class)
     public ResponseEntity<ErrorResponse> handleOfferDuplicateException(OfferDuplicateException e) {
         ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), HttpStatus.CONFLICT);
-        log.info(e.getMessage());
+        log.error(e.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
 
@@ -44,14 +43,7 @@ public class OfferControllerExceptionHandler extends ResponseEntityExceptionHand
             String errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);
         });
-        log.info("Validation not passed");
+        log.error("Validation not passed");
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(WrongCredentials.class)
-    public ResponseEntity<ErrorResponse> handleWrongCredentials(WrongCredentials e) {
-        ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
-        log.info(e.getMessage());
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 }

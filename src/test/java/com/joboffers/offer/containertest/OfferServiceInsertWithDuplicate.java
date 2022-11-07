@@ -16,6 +16,8 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.List;
 
+import static com.joboffers.offer.containertest.Config.DB_PORT;
+import static com.joboffers.offer.containertest.Config.DOCKER_IMAGE_NAME;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 
@@ -24,8 +26,6 @@ import static org.assertj.core.api.BDDAssertions.then;
 @Testcontainers
 public class OfferServiceInsertWithDuplicate implements Samples {
 
-    private static final String MONGO_VERSION = "4.4.4";
-
     @Autowired
     OfferService offerService;
 
@@ -33,11 +33,11 @@ public class OfferServiceInsertWithDuplicate implements Samples {
     OfferRepository offerRepository;
 
     @Container
-    private static final MongoDBContainer DB_CONTAINER = new MongoDBContainer("mongo:" + MONGO_VERSION);
+    private static final MongoDBContainer DB_CONTAINER = new MongoDBContainer(DOCKER_IMAGE_NAME);
 
     static {
         DB_CONTAINER.start();
-        System.setProperty("DB_PORT", String.valueOf(DB_CONTAINER.getFirstMappedPort()));
+        System.setProperty(DB_PORT, String.valueOf(DB_CONTAINER.getFirstMappedPort()));
     }
 
     @Test
@@ -48,7 +48,7 @@ public class OfferServiceInsertWithDuplicate implements Samples {
         then(offerRepository.existsByOfferUrl(urlOfNonDuplicateOffer)).isFalse();
         then(offerRepository.existsByOfferUrl(urlOfDuplicateOffer)).isTrue();
 
-        List<OfferDto> savedOffers = offerService.saveAllAfterFiltered(offersToAddWithOneDuplicate);
+        List<OfferDto> savedOffers = offerService.saveAllOffersAfterFiltered(offersToAddWithOneDuplicate);
 
         assertThat(savedOffers.size()).isEqualTo(1);
         assertThat(offerRepository.existsByOfferUrl(urlOfNonDuplicateOffer)).isTrue();

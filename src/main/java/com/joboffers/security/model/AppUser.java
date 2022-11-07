@@ -15,7 +15,9 @@ public class AppUser {
 
     @Id
     private String id;
+
     @Indexed(unique = true, name = "meta_url_index_unique")
     private String username;
+
     private String password;
 }

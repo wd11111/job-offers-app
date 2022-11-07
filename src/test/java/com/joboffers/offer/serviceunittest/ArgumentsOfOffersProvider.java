@@ -7,7 +7,7 @@ import org.junit.jupiter.params.provider.ArgumentsProvider;
 
 import java.util.stream.Stream;
 
-public class ProvideArgumentsOfOffers implements ArgumentsProvider, Samples {
+public class ArgumentsOfOffersProvider implements ArgumentsProvider, Samples {
 
     @Override
     public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) throws Exception {

@@ -21,6 +21,7 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
 
+    private static final String UNAUTHORIZED = "UNAUTHORIZED ";
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
 
@@ -28,14 +29,14 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         AppUser user = userRepository.findByUsername(username)
                 .orElseThrow(() -> {
-                    throw new UsernameNotFoundException("UNAUTHORIZED");
+                    throw new UsernameNotFoundException(UNAUTHORIZED);
                 });
         return new User(user.getUsername(), user.getPassword(), Collections.emptyList());
     }
 
     public void register(RegisterCredentials registerCredentials) {
         String encodedPassword = passwordEncoder.encode(registerCredentials.getPassword());
-        AppUser user = new AppUser(null, registerCredentials.getUserName(), encodedPassword);
+        AppUser user = new AppUser(null, registerCredentials.getUsername(), encodedPassword);
         try {
             userRepository.save(user);
         } catch (DuplicateKeyException e) {

@@ -16,6 +16,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.List;
 
+import static com.joboffers.offer.containertest.Config.*;
 import static com.joboffers.offer.containertest.OfferListAssert.*;
 
 @SpringBootTest(classes = OfferServiceAddTwoOffersTest.TestConfig.class)
@@ -29,22 +30,20 @@ public class OfferServiceAddTwoOffersTest implements Samples {
     @Autowired
     OfferRepository offerRepository;
 
-    private static final String MONGO_VERSION = "4.4.4";
-
     @Container
-    private static final MongoDBContainer DB_CONTAINER = new MongoDBContainer("mongo:" + MONGO_VERSION);
+    private static final MongoDBContainer DB_CONTAINER = new MongoDBContainer(DOCKER_IMAGE_NAME);
 
     static {
         DB_CONTAINER.start();
-        System.setProperty("DB_PORT", String.valueOf(DB_CONTAINER.getFirstMappedPort()));
+        System.setProperty(DB_PORT, String.valueOf(DB_CONTAINER.getFirstMappedPort()));
     }
 
     @Test
     void should_add_list_of_two_offers() {
         List<OfferDto> offersToAdd = List.of(sampleOfferDto4(), sampleOfferDto5());
-        assertThatOffersDoesNotExistInDb(offersToAdd, offerRepository);
+        assertThatOffersDoesNotExistInDatabase(offersToAdd, offerRepository);
 
-        List<OfferDto> savedOffers = offerService.saveAllAfterFiltered(offersToAdd);
+        List<OfferDto> savedOffers = offerService.saveAllOffersAfterFiltered(offersToAdd);
 
         assertThatOffersWereAdded(savedOffers, offerRepository);
     }

@@ -15,7 +15,7 @@ public class OfferListAssert {
         offers.forEach(offer -> assertThat(offerRepository.existsByOfferUrl(offer.getOfferUrl())).isTrue());
     }
 
-    static void assertThatOffersDoesNotExistInDb(List<OfferDto> offers, OfferRepository offerRepository) {
+    static void assertThatOffersDoesNotExistInDatabase(List<OfferDto> offers, OfferRepository offerRepository) {
         offers.forEach(offer -> assertThat(offerRepository.existsByOfferUrl(offer.getOfferUrl())).isFalse());
     }
 
