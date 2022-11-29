@@ -22,14 +22,15 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Value("${jwt.secret:secretkey123}")
-    private String secretKey;
     private final UserService userService;
     private final SuccessHandler successHandler;
     private final PasswordEncoder passwordEncoder;
     private final ObjectMapper objectMapper;
     private final FailureHandler failureHandler;
     private final AuthenticationEntryPoint authenticationEntryPoint;
+
+    @Value("${jwt.secret}")
+    private String secret;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -46,7 +47,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/swagger-resources/**").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/register").permitAll()
-                .antMatchers("/xd").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -56,7 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
                 .and()
                 .addFilter(filter())
-                .addFilter(new JwtAuthorizationFilter(authenticationManager(), userService, secretKey));
+                .addFilter(new JwtAuthorizationFilter(authenticationManager(), secret));
     }
 
     public AuthenticationFilter filter() throws Exception {

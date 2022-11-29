@@ -14,7 +14,7 @@ public class DatabaseChangeLog {
     public void addUser(UserRepository userRepository) {
         AppUser appUser = new AppUser();
         appUser.setUsername("admin");
-        appUser.setPassword("$2a$10$cInjKQvFxR4KCxn/aRtI9.0SkkaZD0wnTsMIwfrBymJBtpqAdsIM6");
+        appUser.setPassword("$2a$10$hjqLtzXhKAj23t5KKqGml.MquszVESSS.TUKRUX9JSYvP58bROv9K");
         userRepository.insert(appUser);
         log.info(String.format("Added user: %s", appUser.getUsername()));
     }
