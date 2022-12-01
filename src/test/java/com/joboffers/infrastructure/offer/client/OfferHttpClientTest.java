@@ -15,7 +15,7 @@ import static org.mockito.Mockito.when;
 class OfferHttpClientTest implements SampleRestTemplateExchangeResponse, SampleOfferResponse, Samples {
 
     RestTemplate restTemplate = Mockito.mock(RestTemplate.class);
-    RemoteOfferClient offerHttpClient = new OfferHttpClient(restTemplate, "url", 5057);
+    RemoteOfferClient offerHttpClient = new OfferHttpClient(restTemplate, "url",  5057, "path");
 
     @Test
     void should_return_one_element_list_of_offers() {
@@ -24,7 +24,7 @@ class OfferHttpClientTest implements SampleRestTemplateExchangeResponse, SampleO
 
         List<OfferDto> offers = offerHttpClient.getOffers();
 
-        assertThat(offers.size()).isEqualTo(1);
+        assertThat(offers).hasSize(1);
     }
 
     @Test
@@ -44,7 +44,7 @@ class OfferHttpClientTest implements SampleRestTemplateExchangeResponse, SampleO
 
         List<OfferDto> offers = offerHttpClient.getOffers();
 
-        assertThat(offers.size()).isEqualTo(2);
+        assertThat(offers).hasSize(2);
     }
 
 

@@ -21,15 +21,16 @@ import java.util.List;
 public class OfferHttpClient implements RemoteOfferClient {
 
     private final RestTemplate restTemplate;
-    private final String uri;
+    private final String host;
     private final int port;
+    private final String path;
 
     @Override
     public List<OfferDto> getOffers() {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         final HttpEntity<HttpHeaders> requestEntity = new HttpEntity<>(httpHeaders);
-        String url = uri + ":" + port + "/offers";
+        String url = host + ":" + port + path;
 
         try {
             ResponseEntity<List<OfferDto>> response = restTemplate.exchange(url, HttpMethod.GET, requestEntity,

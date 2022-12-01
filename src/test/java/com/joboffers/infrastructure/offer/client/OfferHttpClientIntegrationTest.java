@@ -2,7 +2,7 @@ package com.joboffers.infrastructure.offer.client;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
-import com.joboffers.config.OfferHttpClientTestOfferClientConfig;
+import com.joboffers.config.OfferHttpClientTestConfig;
 import com.joboffers.infrastructure.RemoteOfferClient;
 import com.joboffers.offer.Samples;
 import org.junit.jupiter.api.AfterEach;
@@ -11,20 +11,22 @@ import org.junit.jupiter.api.Test;
 import org.springframework.util.SocketUtils;
 import wiremock.org.apache.http.HttpStatus;
 
-import java.util.Arrays;
+import java.util.List;
 
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
-import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class OfferHttpClientIntegrationTest implements Samples {
+
+    private static String PATH_VARIABLE = "/offers";
 
     int port = SocketUtils.findAvailableTcpPort();
     WireMockServer wireMockServer;
 
-    RemoteOfferClient remoteOfferClient = new OfferHttpClientTestOfferClientConfig().remoteOfferTestClient("http://localhost", port, 1000, 1000);
+    RemoteOfferClient remoteOfferClient = new OfferHttpClientTestConfig().remoteOfferTestClient("http://localhost", port, PATH_VARIABLE, 1000, 1000);
 
     @BeforeEach
-    void setup() {
+    void setUp() {
         wireMockServer = new WireMockServer(options().port(port));
         wireMockServer.start();
         WireMock.configureFor(port);
@@ -37,14 +39,14 @@ class OfferHttpClientIntegrationTest implements Samples {
 
     @Test
     void should_return_two_job_offers() {
-        WireMock.stubFor(WireMock.get("/offers")
+        WireMock.stubFor(WireMock.get(PATH_VARIABLE)
                 .willReturn(WireMock.aResponse()
                         .withStatus(HttpStatus.SC_OK)
                         .withHeader("Content-Type", "application/json")
                         .withBody(bodyWithTwoOffersJson())));
 
-        then(remoteOfferClient.getOffers())
-                .containsExactlyInAnyOrderElementsOf(Arrays.asList(sampleOfferDto1(), sampleOfferDto2()));
+        assertThat(remoteOfferClient.getOffers())
+                .containsExactlyInAnyOrderElementsOf(List.of(sampleOfferDto1(), sampleOfferDto2()));
     }
 
     private String bodyWithTwoOffersJson() {
