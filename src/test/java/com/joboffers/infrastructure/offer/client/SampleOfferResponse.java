@@ -15,12 +15,8 @@ public interface SampleOfferResponse extends Samples {
         return new ResponseEntity<>(Collections.singletonList(sampleOfferDto1()), HttpStatus.ACCEPTED);
     }
 
-    default ResponseEntity<List<OfferDto>> responseWithNoOffers() {
-        return new ResponseEntity<>(Collections.emptyList(), HttpStatus.ACCEPTED);
-    }
-
-    default ResponseEntity<List<OfferDto>> responseWithOffers(OfferDto... offerDtos) {
-        return new ResponseEntity<>(Arrays.asList(offerDtos), HttpStatus.ACCEPTED);
+    default ResponseEntity<List<OfferDto>> responseWithOffers(OfferDto... offerDto) {
+        return new ResponseEntity<>(Arrays.asList(offerDto), HttpStatus.ACCEPTED);
     }
 
 

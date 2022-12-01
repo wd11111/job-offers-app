@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface SampleRestTemplateExchangeResponse {
 
-    default ResponseEntity<List<OfferDto>> getExchange(RestTemplate restTemplate) {
+    default ResponseEntity<List<OfferDto>> exchange(RestTemplate restTemplate) {
         return restTemplate.exchange(
                 ArgumentMatchers.anyString(),
                 ArgumentMatchers.any(HttpMethod.class),
