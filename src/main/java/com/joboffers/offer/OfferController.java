@@ -37,6 +37,6 @@ public class OfferController {
 
     @PostMapping("/add")
     ResponseEntity<OfferDto> addOffer(@RequestBody @Valid OfferDto offerDto) {
-        return new ResponseEntity<>(offerService.addOffer(offerDto), HttpStatus.CREATED);
+        return new ResponseEntity<>(offerService.saveOffer(offerDto), HttpStatus.CREATED);
     }
 }

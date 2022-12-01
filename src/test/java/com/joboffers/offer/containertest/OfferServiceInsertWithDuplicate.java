@@ -48,7 +48,7 @@ public class OfferServiceInsertWithDuplicate implements Samples {
         then(offerRepository.existsByOfferUrl(urlOfNonDuplicateOffer)).isFalse();
         then(offerRepository.existsByOfferUrl(urlOfDuplicateOffer)).isTrue();
 
-        List<OfferDto> savedOffers = offerService.saveAllOffersAfterFiltered(offersToAddWithOneDuplicate);
+        List<OfferDto> savedOffers = offerService.saveListOfOffers(offersToAddWithOneDuplicate);
 
         assertThat(savedOffers.size()).isEqualTo(1);
         assertThat(offerRepository.existsByOfferUrl(urlOfNonDuplicateOffer)).isTrue();

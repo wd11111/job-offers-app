@@ -85,7 +85,7 @@ class OfferServiceWithContainerTests implements Samples {
         String urlOfOffer = offerToAdd.getOfferUrl();
         then(offerRepository.existsByOfferUrl(urlOfOffer)).isTrue();
 
-        assertThatThrownBy(() -> offerService.addOffer(offerToAdd)).isInstanceOf(OfferDuplicateException.class)
+        assertThatThrownBy(() -> offerService.saveOffer(offerToAdd)).isInstanceOf(OfferDuplicateException.class)
                 .hasMessageContaining("Offer with this url already exists");
     }
 

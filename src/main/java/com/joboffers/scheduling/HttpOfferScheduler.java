@@ -21,7 +21,7 @@ public class HttpOfferScheduler {
     @Scheduled(fixedDelayString = "${delay.hours:PT3H}")
     public void saveOffersFromHttpService() {
         final List<OfferDto> offersFromClient = offerClient.getOffers();
-        final List<OfferDto> savedOffers = offerService.saveAllOffersAfterFiltered(offersFromClient);
+        final List<OfferDto> savedOffers = offerService.saveListOfOffers(offersFromClient);
         log.info("Added {} offers to database", savedOffers.size());
     }
 }

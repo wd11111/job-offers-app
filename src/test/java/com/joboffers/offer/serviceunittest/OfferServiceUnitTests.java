@@ -26,7 +26,9 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.anyIterable;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class OfferServiceUnitTests implements Samples {
@@ -74,7 +76,7 @@ public class OfferServiceUnitTests implements Samples {
         Offer offerFromRepo = sampleOffer1();
         when(offerRepository.save(offerToSave)).thenReturn(offerFromRepo);
 
-        OfferDto actualOffer = offerService.addOffer(expectedOffer);
+        OfferDto actualOffer = offerService.saveOffer(expectedOffer);
 
         assertThat(actualOffer).isEqualTo(expectedOffer);
         verify(offerRepository, times(1)).save(offerToSave);
@@ -86,7 +88,7 @@ public class OfferServiceUnitTests implements Samples {
         OfferDto offerToSave = sampleOfferDto1();
         when(offerRepository.save(offerToRepo)).thenThrow(DuplicateKeyException.class);
 
-        assertThatThrownBy(() -> offerService.addOffer(offerToSave)).isInstanceOf(OfferDuplicateException.class)
+        assertThatThrownBy(() -> offerService.saveOffer(offerToSave)).isInstanceOf(OfferDuplicateException.class)
                 .hasMessageContaining("Offer with this url already exists");
         verify(offerRepository, times(1)).save(offerToRepo);
     }
@@ -99,7 +101,7 @@ public class OfferServiceUnitTests implements Samples {
         when(offerRepository.saveAll(anyIterable()))
                 .thenAnswer(invocation -> invocation.getArgument(0));
 
-        List<OfferDto> offers = offerService.saveAllOffersAfterFiltered(listOfThreeOffersWithOneDuplicate);
+        List<OfferDto> offers = offerService.saveListOfOffers(listOfThreeOffersWithOneDuplicate);
 
         assertThat(offers.size()).isEqualTo(2);
     }

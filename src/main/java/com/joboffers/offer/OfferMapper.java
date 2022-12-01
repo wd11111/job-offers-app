@@ -1,7 +1,10 @@
 package com.joboffers.offer;
 
-import com.joboffers.model.OfferDto;
 import com.joboffers.model.Offer;
+import com.joboffers.model.OfferDto;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class OfferMapper {
 
@@ -21,6 +24,12 @@ public class OfferMapper {
                 .salary(offer.getSalary())
                 .company(offer.getCompany())
                 .build();
+    }
+
+    public static List<Offer> mapToListOfOffers(List<OfferDto> offers) {
+        return offers.stream()
+                .map(OfferMapper::mapToOffer)
+                .collect(Collectors.toList());
     }
 
 }

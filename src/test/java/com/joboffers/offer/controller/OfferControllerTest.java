@@ -5,8 +5,8 @@ import com.joboffers.exceptionhandler.OfferControllerExceptionHandler;
 import com.joboffers.offer.OfferController;
 import com.joboffers.offer.OfferRepository;
 import com.joboffers.offer.OfferService;
-import com.joboffers.offer.exception.OfferNotFoundException;
 import com.joboffers.offer.Samples;
+import com.joboffers.offer.exception.OfferNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
@@ -20,8 +20,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static com.joboffers.offer.controller.ResponseBodyAssertMvc.*;
-import static org.assertj.core.api.Assertions.assertThat;
+import static com.joboffers.offer.controller.ResponseBodyAssertMvc.then;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -75,7 +74,7 @@ class OfferControllerTest implements Samples {
     void should_return_status_created_when_adding_offer() throws Exception {
         String requestBody = objectMapper.writeValueAsString(sampleOfferDto1());
 
-        when(offerService.addOffer(sampleOfferDto1())).thenReturn(sampleOfferDto1());
+        when(offerService.saveOffer(sampleOfferDto1())).thenReturn(sampleOfferDto1());
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/offers/add")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))

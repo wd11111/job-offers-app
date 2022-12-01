@@ -46,7 +46,7 @@ public class OfferServiceInsertContainerTest implements Samples {
         String urlOfOffer = offerToAdd.getOfferUrl();
         then(offerRepository.existsByOfferUrl(urlOfOffer)).isFalse();
 
-        OfferDto addedOffer = offerService.addOffer(offerToAdd);
+        OfferDto addedOffer = offerService.saveOffer(offerToAdd);
         Offer actualOffer = offerRepository.findByOfferUrl(addedOffer.getOfferUrl());
 
         OfferBodyAssert.then(actualOffer).isTheSameAs(addedOffer);

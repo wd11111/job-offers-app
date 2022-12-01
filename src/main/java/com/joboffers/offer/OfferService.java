@@ -17,6 +17,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.joboffers.offer.OfferMapper.mapToListOfOffers;
+import static com.joboffers.offer.OfferMapper.mapToOffer;
+
 @Service
 @RequiredArgsConstructor
 public class OfferService {
@@ -38,15 +41,15 @@ public class OfferService {
     }
 
     @CacheEvict(value = "offers", allEntries = true)
-    public List<OfferDto> saveAllOffersAfterFiltered(List<OfferDto> offers) {
-        List<OfferDto> filteredOffers = filterOffersBeforeSave(offers);
-        offerRepository.saveAll(mapToOffers(filteredOffers));
+    public List<OfferDto> saveListOfOffers(List<OfferDto> offers) {
+        List<OfferDto> filteredOffers = filterOffers(offers);
+        offerRepository.saveAll(mapToListOfOffers(filteredOffers));
         return filteredOffers;
     }
 
     @CacheEvict(value = "offers", allEntries = true)
-    public OfferDto addOffer(OfferDto offerDto) {
-        Offer offerToInsert = OfferMapper.mapToOffer(offerDto);
+    public OfferDto saveOffer(OfferDto offerDto) {
+        Offer offerToInsert = mapToOffer(offerDto);
         try {
             offerRepository.save(offerToInsert);
             return offerDto;
@@ -55,16 +58,10 @@ public class OfferService {
         }
     }
 
-    private List<OfferDto> filterOffersBeforeSave(List<OfferDto> offers) {
+    private List<OfferDto> filterOffers(List<OfferDto> offers) {
         return offers.stream()
                 .filter(offer -> !Strings.isNullOrEmpty(offer.getOfferUrl()))
                 .filter(offer -> !offerRepository.existsByOfferUrl(offer.getOfferUrl()))
-                .collect(Collectors.toList());
-    }
-
-    private List<Offer> mapToOffers(List<OfferDto> offers) {
-        return offers.stream()
-                .map(OfferMapper::mapToOffer)
                 .collect(Collectors.toList());
     }
 

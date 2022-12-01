@@ -16,8 +16,10 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.List;
 
-import static com.joboffers.offer.containertest.Config.*;
-import static com.joboffers.offer.containertest.OfferListAssert.*;
+import static com.joboffers.offer.containertest.Config.DB_PORT;
+import static com.joboffers.offer.containertest.Config.DOCKER_IMAGE_NAME;
+import static com.joboffers.offer.containertest.OfferListAssert.assertThatOffersDoesNotExistInDatabase;
+import static com.joboffers.offer.containertest.OfferListAssert.assertThatOffersWereAdded;
 
 @SpringBootTest(classes = OfferServiceAddTwoOffersTest.TestConfig.class)
 @ActiveProfiles("container")
@@ -43,7 +45,7 @@ public class OfferServiceAddTwoOffersTest implements Samples {
         List<OfferDto> offersToAdd = List.of(sampleOfferDto4(), sampleOfferDto5());
         assertThatOffersDoesNotExistInDatabase(offersToAdd, offerRepository);
 
-        List<OfferDto> savedOffers = offerService.saveAllOffersAfterFiltered(offersToAdd);
+        List<OfferDto> savedOffers = offerService.saveListOfOffers(offersToAdd);
 
         assertThatOffersWereAdded(savedOffers, offerRepository);
     }
