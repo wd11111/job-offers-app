@@ -1,24 +1,28 @@
 package com.joboffers.offer.containertest;
 
 import com.joboffers.JobOffersApplication;
+import com.joboffers.infrastructure.RemoteOfferClient;
 import com.joboffers.model.Offer;
 import com.joboffers.model.OfferDto;
 import com.joboffers.offer.OfferRepository;
 import com.joboffers.offer.OfferService;
 import com.joboffers.offer.Samples;
+import com.joboffers.scheduling.HttpOfferScheduler;
+import com.joboffers.security.handler.FailureHandler;
+import com.joboffers.security.handler.SuccessHandler;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import java.io.UnsupportedEncodingException;
-
 import static com.joboffers.offer.containertest.Config.DB_PORT;
 import static com.joboffers.offer.containertest.Config.DOCKER_IMAGE_NAME;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 
 @SpringBootTest(classes = OfferServiceInsertContainerTest.TestConfig.class)
@@ -41,7 +45,7 @@ public class OfferServiceInsertContainerTest implements Samples {
     }
 
     @Test
-    void should_correctly_add_offer_to_db() throws UnsupportedEncodingException {
+    void should_correctly_add_offer_to_db() {
         OfferDto offerToAdd = sampleOfferDto3();
         String urlOfOffer = offerToAdd.getOfferUrl();
         then(offerRepository.existsByOfferUrl(urlOfOffer)).isFalse();
@@ -49,10 +53,19 @@ public class OfferServiceInsertContainerTest implements Samples {
         OfferDto addedOffer = offerService.saveOffer(offerToAdd);
         Offer actualOffer = offerRepository.findByOfferUrl(addedOffer.getOfferUrl());
 
-        OfferBodyAssert.then(actualOffer).isTheSameAs(addedOffer);
+        assertThat(actualOffer).usingRecursiveComparison().ignoringFields("id").isEqualTo(addedOffer);
     }
 
     @Import(JobOffersApplication.class)
     static class TestConfig {
+
+        @MockBean
+        HttpOfferScheduler httpOfferScheduler;
+        @MockBean
+        SuccessHandler successHandler;
+        @MockBean
+        FailureHandler failureHandler;
+        @MockBean
+        RemoteOfferClient remoteOfferClient;
     }
 }

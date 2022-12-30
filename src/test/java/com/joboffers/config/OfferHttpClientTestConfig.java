@@ -13,3 +13,4 @@ public class OfferHttpClientTestConfig extends OfferClientConfig {
     }
 
 }
+

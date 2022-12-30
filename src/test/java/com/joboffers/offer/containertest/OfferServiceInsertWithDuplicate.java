@@ -1,13 +1,18 @@
 package com.joboffers.offer.containertest;
 
 import com.joboffers.JobOffersApplication;
+import com.joboffers.infrastructure.RemoteOfferClient;
 import com.joboffers.model.OfferDto;
 import com.joboffers.offer.OfferRepository;
 import com.joboffers.offer.OfferService;
 import com.joboffers.offer.Samples;
+import com.joboffers.scheduling.HttpOfferScheduler;
+import com.joboffers.security.handler.FailureHandler;
+import com.joboffers.security.handler.SuccessHandler;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.containers.MongoDBContainer;
@@ -56,5 +61,14 @@ public class OfferServiceInsertWithDuplicate implements Samples {
 
     @Import(JobOffersApplication.class)
     static class TestConfig {
+
+        @MockBean
+        HttpOfferScheduler httpOfferScheduler;
+        @MockBean
+        SuccessHandler successHandler;
+        @MockBean
+        FailureHandler failureHandler;
+        @MockBean
+        RemoteOfferClient remoteOfferClient;
     }
 }
