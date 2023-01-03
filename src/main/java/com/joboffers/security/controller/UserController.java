@@ -21,9 +21,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<Void> login(@RequestBody LoginCredentials loginCredentials) {
-        userService.loadUserByUsername(loginCredentials.getUsername());
-        return ResponseEntity.ok().build();
+    public void login(@RequestBody LoginCredentials loginCredentials) {
     }
 
     @PostMapping("/register")

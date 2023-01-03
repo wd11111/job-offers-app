@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
+
 @Slf4j
 @Component
 public class AuthEntryPointJwt implements AuthenticationEntryPoint {
@@ -17,6 +19,6 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         log.error("Error: not authenticated");
-        response.setStatus(401);
+        response.setStatus(UNAUTHORIZED.value());
     }
 }

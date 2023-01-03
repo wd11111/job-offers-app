@@ -1,4 +1,4 @@
-package com.joboffers.security;
+package com.joboffers.security.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.joboffers.security.filter.AuthenticationFilter;
@@ -26,13 +26,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserService userService;
     private final SuccessHandler successHandler;
-    private final PasswordEncoder passwordEncoder;
     private final ObjectMapper objectMapper;
     private final FailureHandler failureHandler;
     private final AuthenticationEntryPoint authenticationEntryPoint;
+    private final PasswordEncoder passwordEncoder;
 
     @Value("${jwt.secret}")
-    private String secret;
+    private String secretKey;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -58,7 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
                 .and()
                 .addFilter(filter())
-                .addFilter(new JwtAuthorizationFilter(authenticationManager(), secret));
+                .addFilter(new JwtAuthorizationFilter(authenticationManager(), secretKey));
     }
 
     public AuthenticationFilter filter() throws Exception {

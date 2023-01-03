@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
+
 @Slf4j
 @RequiredArgsConstructor
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -36,7 +38,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
             return this.getAuthenticationManager().authenticate(token);
         } catch (IOException e) {
             log.error("Error logging: wrong logging credentials");
-            response.setStatus(401);
+            response.setStatus(UNAUTHORIZED.value());
             return null;
         }
     }

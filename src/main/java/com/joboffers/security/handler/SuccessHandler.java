@@ -18,27 +18,34 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 @Component
 @RequiredArgsConstructor
 public class SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
+    public static final String TOKEN_PREFIX = "Bearer ";
     @Value("${jwt.expirationTime}")
     private long expirationTime;
     @Value("${jwt.secret}")
-    private String secret;
+    private String secretKey;
 
     private final ObjectMapper objectMapper;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         UserDetails principal = (UserDetails) authentication.getPrincipal();
-        String token = JWT.create()
+        String token = createToken(principal);
+        String jsonToken = objectMapper.writeValueAsString(new Token(TOKEN_PREFIX + token));
+        response.setContentType(APPLICATION_JSON_VALUE);
+        response.getWriter().write(jsonToken);
+    }
+
+    private String createToken(UserDetails principal) {
+        return JWT.create()
                 .withSubject(principal.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + expirationTime))
-                .sign(Algorithm.HMAC256(secret));
-        String jsonToken = objectMapper.writeValueAsString(new Token("Bearer " + token));
-        response.setContentType("application/json");
-        response.getWriter().write(jsonToken);
+                .sign(Algorithm.HMAC256(secretKey));
     }
 
     @Getter

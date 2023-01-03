@@ -9,13 +9,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
+
 @Component
 public class FailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception)
-                                        throws IOException, ServletException {
+            throws IOException, ServletException {
         super.onAuthenticationFailure(request, response, exception);
-        response.setStatus(401);
+        response.setStatus(UNAUTHORIZED.value());
     }
 }
